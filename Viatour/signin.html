@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Via Tour — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a2342;--blue:#1a5fa8;--sky:#e8f4fd;--gold:#c9a84c;--white:#ffffff;--gray-50:#f8f9fb;--gray-100:#eef1f6;--gray-300:#c8d0de;--gray-500:#7a8799;--gray-700:#3d4a5c;--error:#e53e3e;--radius:12px;--shadow:0 4px 24px rgba(10,35,66,0.10);--shadow-lg:0 8px 40px rgba(10,35,66,0.18)}
+html,body{height:100%;font-family:'DM Sans',sans-serif;color:var(--navy)}
+body{display:flex;flex-direction:column;background:var(--gray-50);overflow-x:hidden}
+header{background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-100);height:68px;display:flex;align-items:center;flex-shrink:0}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;width:100%}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:22px;height:22px;fill:var(--gold)}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--navy)}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto}
+nav a{font-size:0.9rem;font-weight:500;color:var(--gray-700);text-decoration:none;padding:0.45rem 0.9rem;border-radius:8px;transition:all 0.2s}
+nav a:hover{background:var(--sky);color:var(--blue)}
+.header-right{margin-left:1.5rem}
+.lang-select{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--gray-700);border:1px solid var(--gray-300);background:var(--white);border-radius:8px;padding:0.4rem 0.6rem;cursor:pointer;outline:none}
+.auth-page{flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 68px)}
+.auth-visual{background:linear-gradient(155deg,var(--navy) 0%,#1a3f6f 50%,#1a5fa8 100%);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:3rem}
+.auth-visual::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1000&q=80') center/cover no-repeat;opacity:0.2}
+.auth-visual-content{position:relative;z-index:1}
+.auth-visual-tag{font-size:0.75rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
+.auth-visual h2{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:600;color:var(--white);line-height:1.2;margin-bottom:1rem}
+.auth-visual p{font-size:0.95rem;color:rgba(255,255,255,0.65);line-height:1.75;margin-bottom:2rem;font-weight:300}
+.auth-perks{display:flex;flex-direction:column;gap:0.85rem}
+.perk{display:flex;align-items:center;gap:0.85rem}
+.perk-icon{width:36px;height:36px;background:rgba(255,255,255,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.perk p{font-size:0.875rem;color:rgba(255,255,255,0.75);line-height:1.5}
+.auth-visual-footer{margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.15)}
+.auth-visual-footer p{font-size:0.8rem;color:rgba(255,255,255,0.4)}
+.auth-form-panel{display:flex;align-items:center;justify-content:center;padding:3rem 2rem;background:var(--white)}
+.auth-box{width:100%;max-width:420px}
+.auth-tabs{display:flex;background:var(--gray-50);border-radius:12px;padding:4px;margin-bottom:2.25rem;border:1px solid var(--gray-100)}
+.auth-tab{flex:1;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;padding:0.6rem;border:none;border-radius:9px;cursor:pointer;transition:all 0.25s;background:transparent;color:var(--gray-500)}
+.auth-tab.active{background:var(--white);color:var(--navy);box-shadow:0 2px 8px rgba(10,35,66,0.10)}
+.auth-form-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:600;color:var(--navy);margin-bottom:0.4rem}
+.auth-form-sub{font-size:0.875rem;color:var(--gray-500);margin-bottom:2rem;line-height:1.6}
+.auth-form{display:flex;flex-direction:column;gap:1.1rem}
+.field{display:flex;flex-direction:column;gap:0.4rem}
+label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+.input-wrap{position:relative}
+.input-wrap input{width:100%;font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.75rem 2.8rem 0.75rem 1rem;background:var(--white);color:var(--navy);outline:none;transition:border-color 0.2s,box-shadow 0.2s}
+.input-wrap input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,95,168,0.08)}
+.input-wrap input.has-error{border-color:var(--error)}
+.toggle-pw{position:absolute;right:0.9rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--gray-500);font-size:0.82rem;padding:0;font-family:'DM Sans',sans-serif}
+.toggle-pw:hover{color:var(--navy)}
+.field-error{font-size:0.78rem;color:var(--error);margin-top:0.15rem;display:none}
+.field-error.show{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.forgot-row{display:flex;justify-content:flex-end;margin-top:-0.5rem}
+.forgot-link{font-size:0.8rem;color:var(--blue);cursor:pointer}
+.forgot-link:hover{text-decoration:underline}
+.pw-strength{margin-top:0.4rem}
+.pw-bars{display:flex;gap:4px;margin-bottom:4px}
+.pw-bar{height:3px;flex:1;border-radius:2px;background:var(--gray-100);transition:background 0.3s}
+.pw-label{font-size:0.72rem;color:var(--gray-500)}
+.checkbox-row{display:flex;align-items:flex-start;gap:0.65rem}
+.checkbox-row input[type="checkbox"]{width:16px;height:16px;margin-top:2px;accent-color:var(--navy);cursor:pointer;flex-shrink:0}
+.checkbox-row label{font-size:0.82rem;color:var(--gray-700);cursor:pointer;font-weight:400;line-height:1.5}
+.checkbox-row a{color:var(--blue)}
+.btn-auth{font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.9rem;cursor:pointer;transition:all 0.2s;width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem}
+.btn-auth:hover{background:var(--blue);transform:translateY(-1px)}
+.btn-auth:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.switch-text{text-align:center;font-size:0.85rem;color:var(--gray-500);margin-top:1.25rem}
+.switch-text a{color:var(--blue);cursor:pointer;font-weight:500}
+.switch-text a:hover{text-decoration:underline}
+.auth-error{background:#fef0f0;border:1px solid #fca5a5;border-radius:8px;padding:0.75rem 1rem;font-size:0.85rem;color:var(--error);margin-bottom:1rem;display:none}
+.auth-error.show{display:block}
+.auth-success{text-align:center;padding:1rem 0;display:none}
+.success-circle{width:72px;height:72px;background:#edfaf3;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:2rem}
+.auth-success h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:0.5rem}
+.auth-success p{font-size:0.875rem;color:var(--gray-500);line-height:1.7;margin-bottom:1.5rem}
+.btn-go{font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.8rem 2rem;cursor:pointer;transition:background 0.2s}
+.btn-go:hover{background:var(--blue)}
+.overlay{position:fixed;inset:0;background:rgba(10,35,66,0.45);backdrop-filter:blur(4px);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(0.97);z-index:600;background:var(--white);border-radius:20px;width:min(420px,92vw);padding:2.25rem;opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 24px 80px rgba(10,35,66,0.2)}
+.modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.modal-close{position:absolute;top:1rem;right:1rem;width:32px;height:32px;background:var(--gray-100);border:none;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+.modal-close:hover{background:var(--gray-300)}
+.modal h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:0.4rem}
+.modal p{font-size:0.875rem;color:var(--gray-500);margin-bottom:1.5rem;line-height:1.6}
+.modal-field{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}
+.modal-field label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+.modal-field input{width:100%;font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.75rem 1rem;outline:none;transition:border-color 0.2s}
+.modal-field input:focus{border-color:var(--blue)}
+@media(max-width:900px){.auth-page{grid-template-columns:1fr}.auth-visual{display:none}nav{display:none}}
+@media(max-width:480px){.auth-form-panel{padding:2rem 1.25rem}.form-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="logo-name">Via Tour</span></a>
+    <nav><a href="index.html">Main</a><a href="tours.html">Tours</a><a href="blog.html">Blog</a><a href="contacts.html">Contacts</a></nav>
+    <div class="header-right"><select class="lang-select"><option>🌐 EN</option><option>🌐 HY</option><option>🌐 RU</option></select></div>
+  </div>
+</header>
+
+<div class="auth-page">
+  <div class="auth-visual">
+    <div class="auth-visual-content">
+      <span class="auth-visual-tag">Via Tour Members</span>
+      <h2>Your world of travel awaits</h2>
+      <p>Create your free account to unlock exclusive deals, save favourite tours and manage bookings all in one place.</p>
+      <div class="auth-perks">
+        <div class="perk"><div class="perk-icon">🔥</div><p>Early access to Hot Offers before they go public</p></div>
+        <div class="perk"><div class="perk-icon">📋</div><p>Track all your bookings and trip history</p></div>
+        <div class="perk"><div class="perk-icon">💬</div><p>Direct messaging with your personal travel manager</p></div>
+        <div class="perk"><div class="perk-icon">🎁</div><p>Member-only discounts and loyalty rewards</p></div>
+      </div>
+      <div class="auth-visual-footer"><p>Trusted by 500+ travelers from Armenia and beyond</p></div>
+    </div>
+  </div>
+
+  <div class="auth-form-panel">
+    <div class="auth-box">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabSignin" onclick="switchTab('signin')">Sign In</button>
+        <button class="auth-tab" id="tabSignup" onclick="switchTab('signup')">Create Account</button>
+      </div>
+
+      <!-- SUCCESS STATE -->
+      <div class="auth-success" id="authSuccess">
+        <div class="success-circle">✓</div>
+        <h3 id="successTitle">Welcome back!</h3>
+        <p id="successMsg">You've signed in successfully.</p>
+        <button class="btn-go" id="successBtn" onclick="window.location.href='index.html'">Go to Main Page</button>
+      </div>
+
+      <!-- SIGN IN -->
+      <div id="signinPanel">
+        <h2 class="auth-form-title">Welcome back</h2>
+        <p class="auth-form-sub">Sign in to your Via Tour account</p>
+        <div class="auth-error" id="siError"></div>
+        <form class="auth-form" id="signinForm" novalidate>
+          <div class="field">
+            <label>Email Address</label>
+            <div class="input-wrap"><input type="email" id="si-email" placeholder="you@email.com" autocomplete="email"></div>
+            <span class="field-error" id="siEmailErr">Please enter a valid email address</span>
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <div class="input-wrap">
+              <input type="password" id="si-password" placeholder="Your password" autocomplete="current-password">
+              <button type="button" class="toggle-pw" onclick="togglePw('si-password',this)">Show</button>
+            </div>
+            <span class="field-error" id="siPassErr">Password must be at least 6 characters</span>
+          </div>
+          <div class="forgot-row"><a class="forgot-link" onclick="openForgot()">Forgot password?</a></div>
+          <button type="submit" class="btn-auth" id="signinBtn">Sign In →</button>
+        </form>
+        <p class="switch-text">Don't have an account? <a onclick="switchTab('signup')">Create one free</a></p>
+      </div>
+
+      <!-- SIGN UP -->
+      <div id="signupPanel" style="display:none">
+        <h2 class="auth-form-title">Create account</h2>
+        <p class="auth-form-sub">Join Via Tour and start planning your dream journey</p>
+        <div class="auth-error" id="suError"></div>
+        <form class="auth-form" id="signupForm" novalidate>
+          <div class="form-row">
+            <div class="field"><label>First Name</label><div class="input-wrap"><input type="text" id="su-first" placeholder="First name" autocomplete="given-name"></div><span class="field-error" id="suFirstErr">Required</span></div>
+            <div class="field"><label>Last Name</label><div class="input-wrap"><input type="text" id="su-last" placeholder="Last name" autocomplete="family-name"></div><span class="field-error" id="suLastErr">Required</span></div>
+          </div>
+          <div class="field"><label>Email Address</label><div class="input-wrap"><input type="email" id="su-email" placeholder="you@email.com" autocomplete="email"></div><span class="field-error" id="suEmailErr">Please enter a valid email</span></div>
+          <div class="field"><label>Phone <span style="color:var(--gray-500);font-weight:400">(optional)</span></label><div class="input-wrap"><input type="tel" id="su-phone" placeholder="+374 xx xxx xxx"></div></div>
+          <div class="field">
+            <label>Password</label>
+            <div class="input-wrap"><input type="password" id="su-password" placeholder="Create a password" autocomplete="new-password" oninput="checkStrength(this.value)"><button type="button" class="toggle-pw" onclick="togglePw('su-password',this)">Show</button></div>
+            <div class="pw-strength"><div class="pw-bars"><div class="pw-bar" id="bar1"></div><div class="pw-bar" id="bar2"></div><div class="pw-bar" id="bar3"></div><div class="pw-bar" id="bar4"></div></div><span class="pw-label" id="pwLabel">Enter a password</span></div>
+            <span class="field-error" id="suPassErr">Password must be at least 6 characters</span>
+          </div>
+          <div class="field"><label>Confirm Password</label><div class="input-wrap"><input type="password" id="su-confirm" placeholder="Repeat your password" autocomplete="new-password"><button type="button" class="toggle-pw" onclick="togglePw('su-confirm',this)">Show</button></div><span class="field-error" id="suConfirmErr">Passwords do not match</span></div>
+          <div class="checkbox-row"><input type="checkbox" id="terms"><label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label></div>
+          <span class="field-error" id="termsErr" style="margin-top:-0.5rem">Please accept the terms to continue</span>
+          <button type="submit" class="btn-auth" id="signupBtn">Create Account →</button>
+        </form>
+        <p class="switch-text">Already have an account? <a onclick="switchTab('signin')">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeForgot()"></div>
+<div class="modal" id="forgotModal">
+  <button class="modal-close" onclick="closeForgot()">✕</button>
+  <h3>Reset Password</h3>
+  <p>Enter your email and we'll send you a reset link.</p>
+  <div id="forgotWrap">
+    <form id="forgotForm">
+      <div class="modal-field"><label>Email Address</label><input type="email" id="forgot-email" placeholder="you@email.com"></div>
+      <button type="submit" class="btn-auth" style="margin-top:0.5rem">Send Reset Link</button>
+    </form>
+  </div>
+</div>
+
+<script src="supabase.js"></script>
+<script>
+// Redirect if already logged in
+document.addEventListener('supabase:ready', async () => {
+  const { data: { user } } = await window.sb.auth.getUser();
+  if (user) window.location.href = 'index.html';
+});
+
+function switchTab(tab) {
+  document.getElementById('signinPanel').style.display  = tab === 'signin' ? 'block' : 'none';
+  document.getElementById('signupPanel').style.display  = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('authSuccess').style.display  = 'none';
+  document.getElementById('tabSignin').classList.toggle('active', tab === 'signin');
+  document.getElementById('tabSignup').classList.toggle('active', tab === 'signup');
+}
+
+function togglePw(id, btn) {
+  const inp = document.getElementById(id);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? 'Show' : 'Hide';
+}
+
+function showErr(id, show) { document.getElementById(id)?.classList.toggle('show', show); }
+function markInput(id, err) { document.getElementById(id)?.classList.toggle('has-error', err); }
+
+function checkStrength(val) {
+  const bars = ['bar1','bar2','bar3','bar4'].map(id => document.getElementById(id));
+  const label = document.getElementById('pwLabel');
+  const colors = ['#e53e3e','#e67e22','#f1c40f','#27ae60'];
+  const labels = ['Weak','Fair','Good','Strong'];
+  let score = 0;
+  if (val.length >= 6) score++;
+  if (val.length >= 10) score++;
+  if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  bars.forEach((b, i) => { b.style.background = i < score ? colors[score-1] : 'var(--gray-100)'; });
+  label.textContent = val.length === 0 ? 'Enter a password' : (labels[score-1] || 'Weak');
+  label.style.color = val.length === 0 ? 'var(--gray-500)' : (colors[score-1] || colors[0]);
+}
+
+// ── SIGN IN ───────────────────────────────────────────────────────
+document.getElementById('signinForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('si-email').value.trim();
+  const pass  = document.getElementById('si-password').value;
+  let valid = true;
+  const emailOk = email && /\S+@\S+\.\S+/.test(email);
+  showErr('siEmailErr', !emailOk); markInput('si-email', !emailOk); if (!emailOk) valid = false;
+  const passOk = pass.length >= 6;
+  showErr('siPassErr', !passOk); markInput('si-password', !passOk); if (!passOk) valid = false;
+  if (!valid) return;
+
+  const btn = document.getElementById('signinBtn');
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+
+  const { data, error } = await window.sb.auth.signInWithPassword({ email, password: pass });
+
+  if (error) {
+    const errEl = document.getElementById('siError');
+    errEl.textContent = error.message === 'Invalid login credentials'
+      ? 'Incorrect email or password. Please try again.'
+      : error.message;
+    errEl.classList.add('show');
+    btn.textContent = 'Sign In →'; btn.disabled = false;
+    return;
+  }
+
+  // Check if admin — redirect to admin panel
+  const { data: profile } = await window.sb.from('profiles').select('role,full_name').eq('id', data.user.id).single();
+  const name = profile?.full_name || email.split('@')[0];
+  document.getElementById('authSuccess').style.display = 'block';
+  document.getElementById('signinPanel').style.display = 'none';
+  document.getElementById('successTitle').textContent = `Welcome back, ${name}!`;
+  document.getElementById('successMsg').textContent = 'You\'ve signed in successfully.';
+  if (profile?.role === 'admin' || profile?.role === 'superadmin') {
+    document.getElementById('successBtn').textContent = 'Go to Admin Panel';
+    document.getElementById('successBtn').onclick = () => window.location.href = 'admin.html';
+  } else {
+    document.getElementById('successBtn').onclick = () => window.location.href = 'index.html';
+  }
+};
+
+// ── SIGN UP ───────────────────────────────────────────────────────
+document.getElementById('signupForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const first   = document.getElementById('su-first').value.trim();
+  const last    = document.getElementById('su-last').value.trim();
+  const email   = document.getElementById('su-email').value.trim();
+  const pass    = document.getElementById('su-password').value;
+  const confirm = document.getElementById('su-confirm').value;
+  const terms   = document.getElementById('terms').checked;
+  let valid = true;
+  showErr('suFirstErr',   !first);   markInput('su-first', !first);     if (!first)   valid = false;
+  showErr('suLastErr',    !last);    markInput('su-last', !last);       if (!last)    valid = false;
+  const emailOk = email && /\S+@\S+\.\S+/.test(email);
+  showErr('suEmailErr',   !emailOk); markInput('su-email', !emailOk);   if (!emailOk) valid = false;
+  const passOk = pass.length >= 6;
+  showErr('suPassErr',    !passOk);  markInput('su-password', !passOk); if (!passOk)  valid = false;
+  const confirmOk = pass === confirm;
+  showErr('suConfirmErr', !confirmOk); markInput('su-confirm', !confirmOk); if (!confirmOk) valid = false;
+  showErr('termsErr', !terms); if (!terms) valid = false;
+  if (!valid) return;
+
+  const btn = document.getElementById('signupBtn');
+  btn.textContent = 'Creating account...'; btn.disabled = true;
+
+  const { data, error } = await window.sb.auth.signUp({
+    email, password: pass,
+    options: { data: { full_name: `${first} ${last}`, phone: document.getElementById('su-phone').value } }
+  });
+
+  if (error) {
+    const errEl = document.getElementById('suError');
+    errEl.textContent = error.message;
+    errEl.classList.add('show');
+    btn.textContent = 'Create Account →'; btn.disabled = false;
+    return;
+  }
+
+  document.getElementById('authSuccess').style.display = 'block';
+  document.getElementById('signupPanel').style.display = 'none';
+  document.getElementById('successTitle').textContent = `Welcome, ${first}!`;
+  document.getElementById('successMsg').textContent = data.user?.identities?.length === 0
+    ? 'An account with this email already exists. Please sign in instead.'
+    : 'Your Via Tour account has been created! Check your email to confirm your address, then explore tours.';
+};
+
+// ── FORGOT PASSWORD ───────────────────────────────────────────────
+function openForgot() {
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('forgotModal').classList.add('open');
+}
+function closeForgot() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('forgotModal').classList.remove('open');
+}
+document.getElementById('forgotForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('forgot-email').value.trim();
+  if (!email) return;
+  await window.sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + '/index.html'
+  });
+  document.getElementById('forgotWrap').innerHTML = `
+    <div style="text-align:center;padding:1rem 0">
+      <div style="font-size:2rem;margin-bottom:0.75rem">📧</div>
+      <p style="font-size:0.9rem;color:var(--gray-700);line-height:1.7">Reset link sent to <strong>${email}</strong>.<br>Check your inbox.</p>
+      <button class="btn-auth" style="margin-top:1.25rem" onclick="closeForgot()">Done</button>
+    </div>`;
+};
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeForgot(); });
+const params = new URLSearchParams(window.location.search);
+if (params.get('tab') === 'signup') switchTab('signup');
+</script>
+</body>
+</html>
