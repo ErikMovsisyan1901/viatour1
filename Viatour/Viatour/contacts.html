@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Via Tour — Contacts</title>
+<meta name="description" content="Get in touch with Via Tour. Visit us in Yerevan, call us or send a message and we'll get back to you within 24 hours.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0a2342;--blue:#1a5fa8;--sky:#e8f4fd;--gold:#c9a84c;
+  --white:#ffffff;--gray-50:#f8f9fb;--gray-100:#eef1f6;
+  --gray-300:#c8d0de;--gray-500:#7a8799;--gray-700:#3d4a5c;
+  --green:#1a7a4a;--green-bg:#edfaf3;
+  --radius:12px;--shadow:0 4px 24px rgba(10,35,66,0.10);
+  --shadow-lg:0 8px 40px rgba(10,35,66,0.18);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--gray-50);overflow-x:hidden}
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+header{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-100);height:68px;display:flex;align-items:center}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;width:100%}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:22px;height:22px;fill:var(--gold)}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--navy)}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto}
+nav a{font-size:0.9rem;font-weight:500;color:var(--gray-700);text-decoration:none;padding:0.45rem 0.9rem;border-radius:8px;transition:all 0.2s}
+nav a:hover,nav a.active{background:var(--sky);color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:0.75rem;margin-left:1.5rem;flex-shrink:0}
+.lang-select{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--gray-700);border:1px solid var(--gray-300);background:var(--white);border-radius:8px;padding:0.4rem 0.6rem;cursor:pointer;outline:none}
+.btn-signin{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--blue);border:1.5px solid var(--blue);background:transparent;border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s}
+.btn-signin:hover{background:var(--blue);color:var(--white)}
+.btn-signup{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--white);border:none;background:var(--navy);border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s}
+.btn-signup:hover{background:var(--blue)}
+
+/* ── PAGE HERO ──────────────────────────────────────────────── */
+.page-hero{margin-top:68px;background:linear-gradient(135deg,var(--navy) 0%,#1a3f6f 60%,#1a5fa8 100%);padding:3.5rem 2rem;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1423592707957-3b212afa6733?w=1400&q=80') center/cover no-repeat;opacity:0.13}
+.page-hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.page-hero-label{font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;display:block}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:600;color:var(--white);margin-bottom:0.75rem}
+.page-hero p{font-size:1rem;color:rgba(255,255,255,0.75);font-weight:300}
+
+/* ── INFO CARDS ─────────────────────────────────────────────── */
+.info-section{padding:3rem 2rem 0}
+.info-inner{max-width:1200px;margin:0 auto}
+.info-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem}
+.info-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:1.75rem 1.5rem;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:flex-start;gap:1rem;animation:fadeUp 0.4s ease both}
+.info-card:nth-child(2){animation-delay:0.07s}
+.info-card:nth-child(3){animation-delay:0.14s}
+.info-card:nth-child(4){animation-delay:0.21s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.info-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.icon-blue{background:var(--sky)}
+.icon-gold{background:#fef9ec}
+.icon-green{background:#edfaf3}
+.icon-pink{background:#fef0f0}
+.info-card-label{font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.2rem}
+.info-card-value{font-size:1rem;font-weight:500;color:var(--navy);line-height:1.5}
+.info-card-sub{font-size:0.82rem;color:var(--gray-500);margin-top:0.15rem}
+.open-badge{display:inline-block;font-size:0.7rem;font-weight:600;border-radius:20px;padding:0.15rem 0.6rem;margin-left:4px}
+
+/* ── MAIN GRID ──────────────────────────────────────────────── */
+.main-section{padding:0 2rem 4rem}
+.main-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:start}
+
+/* map */
+.map-block{display:flex;flex-direction:column;gap:1.5rem}
+.map-container{border-radius:16px;overflow:hidden;box-shadow:var(--shadow-lg);height:420px;border:1px solid var(--gray-100)}
+.map-container iframe{width:100%;height:100%;border:none}
+.office-hours{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow)}
+.oh-title{font-size:0.8rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:1rem}
+.oh-row{display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--gray-100);font-size:0.88rem}
+.oh-row:last-child{border-bottom:none}
+.oh-day{color:var(--gray-700)}
+.oh-time{font-weight:500;color:var(--navy)}
+.oh-closed{color:var(--gray-500);font-style:italic}
+
+/* form */
+.form-block{background:var(--white);border:1px solid var(--gray-100);border-radius:16px;padding:2.25rem;box-shadow:var(--shadow)}
+.form-block-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:500;color:var(--navy);margin-bottom:0.4rem}
+.form-block-sub{font-size:0.875rem;color:var(--gray-500);margin-bottom:1.75rem;line-height:1.6}
+.contact-form{display:flex;flex-direction:column;gap:1.1rem}
+.field{display:flex;flex-direction:column;gap:0.4rem}
+label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+input[type="text"],input[type="email"],input[type="tel"],textarea,select{font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.72rem 1rem;background:var(--white);color:var(--navy);outline:none;transition:border-color 0.2s,box-shadow 0.2s;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,95,168,0.08)}
+textarea{resize:vertical;min-height:110px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-submit{font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.9rem 2rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.5rem}
+.btn-submit:hover{background:var(--blue);transform:translateY(-1px)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed;transform:none}
+.success-state{text-align:center;padding:2.5rem 0}
+.success-check{width:64px;height:64px;background:#edfaf3;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.8rem}
+.success-state h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--navy);margin-bottom:0.5rem}
+.success-state p{font-size:0.9rem;color:var(--gray-500);line-height:1.7;max-width:340px;margin:0 auto}
+
+/* ── SOCIAL STRIP ───────────────────────────────────────────── */
+.social-section{padding:0 2rem 4rem}
+.social-inner{max-width:1200px;margin:0 auto}
+.social-strip{background:var(--navy);border-radius:16px;padding:2.25rem 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem}
+.social-text h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--white);margin-bottom:0.3rem}
+.social-text p{font-size:0.875rem;color:rgba(255,255,255,0.6)}
+.social-buttons{display:flex;gap:1rem;flex-shrink:0}
+.social-btn{display:flex;align-items:center;gap:0.65rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;padding:0.75rem 1.4rem;border-radius:10px;border:none;cursor:pointer;transition:all 0.2s;text-decoration:none}
+.btn-instagram{background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:var(--white)}
+.btn-instagram:hover{opacity:0.9;transform:translateY(-2px)}
+.btn-facebook{background:#1877f2;color:var(--white)}
+.btn-facebook:hover{opacity:0.9;transform:translateY(-2px)}
+
+/* ── FOOTER ─────────────────────────────────────────────────── */
+footer{background:var(--navy);color:rgba(255,255,255,0.75);padding:3.5rem 2rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 2fr;gap:3rem;margin-bottom:2.5rem}
+.footer-brand p{font-size:0.875rem;line-height:1.7;margin-top:0.75rem;color:rgba(255,255,255,0.55)}
+.footer-social{display:flex;gap:0.75rem;margin-top:1.25rem}
+.footer-social-btn{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;text-decoration:none;color:rgba(255,255,255,0.75);font-size:0.85rem;font-weight:600}
+.footer-social-btn:hover{background:rgba(255,255,255,0.1)}
+.footer-col h4{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.footer-col ul li a{text-decoration:none;color:rgba(255,255,255,0.55);font-size:0.875rem;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-contact-info p{font-size:0.875rem;line-height:1.8;color:rgba(255,255,255,0.55)}
+.footer-contact-info strong{color:rgba(255,255,255,0.85)}
+.footer-map{margin-top:1rem;border-radius:10px;overflow:hidden;height:130px}
+.footer-map iframe{width:100%;height:100%;border:none;filter:grayscale(20%)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:0.8rem;color:rgba(255,255,255,0.4)}
+.footer-logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--white)}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:1000px){
+  .info-cards{grid-template-columns:repeat(2,1fr)}
+  .main-inner{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem}
+  nav{display:none}
+}
+@media(max-width:600px){
+  .info-cards{grid-template-columns:1fr 1fr}
+  .social-strip{flex-direction:column;text-align:center}
+  .footer-top{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .page-hero h1{font-size:2rem}
+  .social-buttons{flex-direction:column;width:100%}
+  .social-btn{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══════════════════════════════════════════════════ -->
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <span class="logo-name">Via Tour</span>
+    </a>
+    <nav>
+      <a href="index.html">Main</a>
+      <a href="tours.html">Tours</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacts.html" class="active">Contacts</a>
+    </nav>
+    <div class="header-right">
+      <select class="lang-select"><option value="en">🌐 EN</option><option value="hy">🌐 HY</option><option value="ru">🌐 RU</option></select>
+      <button class="btn-signin" onclick="window.location.href='signin.html'">Sign in</button>
+      <button class="btn-signup" onclick="window.location.href='signin.html'">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══ PAGE HERO ════════════════════════════════════════════════ -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-label">We'd love to hear from you</span>
+    <h1>Contact Us</h1>
+    <p>Our travel experts are ready to help you plan the perfect journey</p>
+  </div>
+</div>
+
+<!-- ══ INFO CARDS ═══════════════════════════════════════════════ -->
+<div class="info-section">
+  <div class="info-inner">
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-icon icon-blue">📍</div>
+        <div>
+          <div class="info-card-label">Our Address</div>
+          <!-- Replace with your real address -->
+          <div class="info-card-value">Yerevan, Armenia</div>
+          <div class="info-card-sub">View on map below</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon icon-gold">📞</div>
+        <div>
+          <div class="info-card-label">Phone Number</div>
+          <!-- Replace with your real phone number -->
+          <div class="info-card-value">+374 10 000 000</div>
+          <div class="info-card-sub">Mon – Sat, 9:00 – 19:00</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon icon-green">✉️</div>
+        <div>
+          <div class="info-card-label">Email Address</div>
+          <!-- Replace with your real email -->
+          <div class="info-card-value">info@viatour.am</div>
+          <div class="info-card-sub">We reply within 24 hours</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-icon icon-pink">🕐</div>
+        <div>
+          <div class="info-card-label">Working Hours</div>
+          <div class="info-card-value">Mon – Sat
+            <span class="open-badge" id="openBadge">—</span>
+          </div>
+          <div class="info-card-sub">9:00 AM – 7:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAP + FORM ════════════════════════════════════════════════ -->
+<div class="main-section">
+  <div class="main-inner">
+
+    <!-- MAP -->
+    <div class="map-block">
+      <div class="map-container">
+        <!--
+          Replace the src below with your real Google Maps embed URL.
+          To get your embed URL:
+          1. Go to maps.google.com and find your address
+          2. Click Share > Embed a map
+          3. Copy the iframe src URL and paste it here
+        -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.8!2d44.5152!3d40.1872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd0f16e7a4c1%3A0x8b36cd1ba7f8f66e!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <div class="office-hours">
+        <div class="oh-title">Office Hours</div>
+        <div class="oh-row"><span class="oh-day">Monday – Friday</span><span class="oh-time">9:00 AM – 7:00 PM</span></div>
+        <div class="oh-row"><span class="oh-day">Saturday</span><span class="oh-time">10:00 AM – 5:00 PM</span></div>
+        <div class="oh-row"><span class="oh-day">Sunday</span><span class="oh-closed">Closed</span></div>
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="form-block">
+      <h2 class="form-block-title">Send us a message</h2>
+      <p class="form-block-sub">Fill in the form below and one of our travel experts will get back to you within 24 hours.</p>
+      <div id="formWrap">
+        <form class="contact-form" id="contactForm">
+          <div class="form-row">
+            <div class="field">
+              <label for="cf-name">Full Name</label>
+              <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="field">
+              <label for="cf-phone">Phone Number</label>
+              <input type="tel" id="cf-phone" name="phone" placeholder="+374 xx xxx xxx">
+            </div>
+          </div>
+          <div class="field">
+            <label for="cf-email">Email Address</label>
+            <input type="email" id="cf-email" name="email" placeholder="you@email.com" required>
+          </div>
+          <div class="field">
+            <label for="cf-subject">Subject</label>
+            <select id="cf-subject" name="subject">
+              <option value="">Select a topic...</option>
+              <option value="tour">Tour enquiry</option>
+              <option value="booking">Booking assistance</option>
+              <option value="group">Group travel</option>
+              <option value="custom">Custom itinerary</option>
+              <option value="general">General question</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cf-msg">Message</label>
+            <textarea id="cf-msg" name="message" placeholder="Tell us how we can help you..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit" id="submitBtn">
+            Send Message
+            <span>→</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SOCIAL STRIP ═════════════════════════════════════════════ -->
+<div class="social-section">
+  <div class="social-inner">
+    <div class="social-strip">
+      <div class="social-text">
+        <h3>Follow us on social media</h3>
+        <p>Stay inspired — travel stories, hot deals and destination guides every week</p>
+      </div>
+      <div class="social-buttons">
+        <!-- Replace # with your real Instagram and Facebook URLs -->
+        <a class="social-btn btn-instagram" href="#" target="_blank" rel="noopener">
+          📸 &nbsp;Instagram
+        </a>
+        <a class="social-btn btn-facebook" href="#" target="_blank" rel="noopener">
+          👍 &nbsp;Facebook
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ═══════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <span class="footer-logo-name">Via Tour</span>
+        </a>
+        <p>Your trusted travel partner since 2014. Creating extraordinary journeys across the world from Yerevan, Armenia.</p>
+        <div class="footer-social">
+          <a class="footer-social-btn" href="#" title="Instagram" target="_blank">in</a>
+          <a class="footer-social-btn" href="#" title="Facebook" target="_blank">fb</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Main</a></li>
+          <li><a href="tours.html">Tours</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contacts.html">Contacts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="tours.html">Group Tours</a></li>
+          <li><a href="tours.html">Private Tours</a></li>
+          <li><a href="tours.html">Honeymoon</a></li>
+          <li><a href="tours.html">Business Travel</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact-info">
+        <h4>Contact Us</h4>
+        <p>
+          <strong>Address:</strong> Yerevan, Armenia<br>
+          <strong>Email:</strong> info@viatour.am<br>
+          <strong>Phone:</strong> +374 10 000 000
+        </p>
+        <div class="footer-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.8!2d44.5152!3d40.1872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd0f16e7a4c1%3A0x8b36cd1ba7f8f66e!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Via Tour. All rights reserved.</p>
+      <p>Made with ♥ in Yerevan</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ SCRIPTS ══════════════════════════════════════════════════ -->
+<script>
+/* ── OPEN / CLOSED BADGE ── */
+function updateOpenStatus() {
+  const badge = document.getElementById('openBadge');
+  if (!badge) return;
+  const now  = new Date();
+  const day  = now.getDay();  // 0=Sun, 6=Sat
+  const hour = now.getHours();
+  const isOpen =
+    (day >= 1 && day <= 5 && hour >= 9 && hour < 19) ||
+    (day === 6 && hour >= 10 && hour < 17);
+  badge.textContent = isOpen ? 'Open now' : 'Closed';
+  badge.style.background = isOpen ? '#edfaf3' : '#fef0f0';
+  badge.style.color       = isOpen ? '#1a7a4a' : '#c0392b';
+  badge.style.fontSize    = '0.7rem';
+  badge.style.fontWeight  = '600';
+  badge.style.borderRadius = '20px';
+  badge.style.padding     = '0.15rem 0.55rem';
+}
+updateOpenStatus();
+
+/* ── CONTACT FORM ── */
+document.getElementById('contactForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  // TODO: Replace with real API call:
+  // const res = await fetch('/api/submissions', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({
+  //     name:    document.getElementById('cf-name').value,
+  //     email:   document.getElementById('cf-email').value,
+  //     phone:   document.getElementById('cf-phone').value,
+  //     message: document.getElementById('cf-msg').value,
+  //     type:    'contact',
+  //     subject: document.getElementById('cf-subject').value
+  //   })
+  // });
+  // if (!res.ok) { btn.textContent = 'Try again'; btn.disabled = false; return; }
+
+  await new Promise(r => setTimeout(r, 800));
+
+  document.getElementById('formWrap').innerHTML = `
+    <div class="success-state">
+      <div class="success-check">✓</div>
+      <h3>Message Sent!</h3>
+      <p>Thank you for reaching out. One of our travel experts will get back to you within 24 hours.</p>
+    </div>`;
+};
+</script>
+<script src="supabase.js"></script>
+<script>
+document.getElementById("contactForm").onsubmit = async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById("submitBtn");
+  btn.textContent = "Sending..."; btn.disabled = true;
+  const { error } = await window.sb.from("submissions").insert([{
+    name:    document.getElementById("cf-name").value,
+    email:   document.getElementById("cf-email").value,
+    phone:   document.getElementById("cf-phone").value,
+    message: document.getElementById("cf-msg").value,
+    type:    "contact",
+    status:  "Requested"
+  }]);
+  if (error) { btn.textContent = "Try again"; btn.disabled = false; alert("Error: " + error.message); return; }
+  document.getElementById("formWrap").innerHTML = `<div class="success-state"><div class="success-check">✓</div><h3>Message Sent!</h3><p>Thank you for reaching out. One of our travel experts will get back to you within 24 hours.</p></div>`;
+};
+</script>
+</body>
+</html>

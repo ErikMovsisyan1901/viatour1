@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Via Tour — Admin Panel</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a2342;--blue:#1a5fa8;--sky:#e8f4fd;--gold:#c9a84c;--white:#fff;--gray-50:#f8f9fb;--gray-100:#eef1f6;--gray-300:#c8d0de;--gray-500:#7a8799;--gray-700:#3d4a5c;--green:#1a7a4a;--green-bg:#edfaf3;--orange:#c05e00;--orange-bg:#fff3e0;--red:#c0392b;--red-bg:#fef0f0;--purple:#6c3fc5;--purple-bg:#f3effd;--radius:10px;--shadow:0 2px 12px rgba(10,35,66,0.08);--shadow-lg:0 8px 32px rgba(10,35,66,0.14)}
+html,body{height:100%;font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--gray-50)}
+body{display:flex;flex-direction:column}
+#loginGate{position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,var(--navy) 0%,#1a3f6f 60%,#1a5fa8 100%);display:flex;align-items:center;justify-content:center}
+#loginGate::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1200&q=60') center/cover no-repeat;opacity:0.12}
+.login-box{position:relative;z-index:1;background:var(--white);border-radius:20px;padding:2.5rem;width:min(420px,92vw);box-shadow:0 24px 80px rgba(10,35,66,0.3)}
+.login-logo{display:flex;align-items:center;gap:10px;margin-bottom:2rem}
+.login-logo-icon{width:44px;height:44px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.login-logo-icon svg{width:24px;height:24px;fill:var(--gold)}
+.login-logo span{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:600;color:var(--navy)}
+.login-box h2{font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--navy);margin-bottom:0.35rem}
+.login-box p{font-size:0.875rem;color:var(--gray-500);margin-bottom:1.75rem}
+.lfield{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}
+.lfield label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+.lfield input{font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.75rem 1rem;outline:none;transition:border-color 0.2s;width:100%}
+.lfield input:focus{border-color:var(--blue)}
+.login-err{font-size:0.82rem;color:var(--red);margin-bottom:0.75rem;display:none}
+.login-err.show{display:block}
+.btn-login{width:100%;font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.9rem;cursor:pointer;transition:background 0.2s}
+.btn-login:hover{background:var(--blue)}
+.btn-login:disabled{opacity:0.6;cursor:not-allowed}
+.back-link{display:block;text-align:center;margin-top:1.25rem;font-size:0.82rem;color:var(--gray-500);text-decoration:none}
+.back-link:hover{color:var(--blue)}
+#appShell{display:none;height:100vh;overflow:hidden}
+#appShell.visible{display:flex}
+.sidebar{width:240px;background:var(--navy);display:flex;flex-direction:column;flex-shrink:0;height:100vh;overflow-y:auto}
+.sidebar-brand{padding:1.5rem 1.25rem 1rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.sidebar-logo{display:flex;align-items:center;gap:9px}
+.sidebar-logo-icon{width:36px;height:36px;background:rgba(255,255,255,0.1);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.sidebar-logo-icon svg{width:20px;height:20px;fill:var(--gold)}
+.sidebar-logo span{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:600;color:var(--white)}
+.sidebar-role-badge{font-size:0.65rem;background:var(--gold);color:var(--navy);font-weight:700;border-radius:4px;padding:0.1rem 0.4rem;margin-left:auto}
+.sidebar-user{padding:1rem 1.25rem;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:0.75rem}
+.user-avatar{width:36px;height:36px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:600;color:var(--white);flex-shrink:0}
+.user-info p{font-size:0.82rem;font-weight:500;color:var(--white);line-height:1.3}
+.user-info span{font-size:0.72rem;color:rgba(255,255,255,0.45)}
+.sidebar-nav{padding:0.75rem;flex:1}
+.nav-section-label{font-size:0.65rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);padding:0.5rem 0.5rem 0.35rem;margin-top:0.5rem}
+.nav-item{display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0.75rem;border-radius:8px;cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.6);font-size:0.875rem;font-weight:400;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:rgba(255,255,255,0.08);color:var(--white)}
+.nav-item.active{background:rgba(255,255,255,0.12);color:var(--white);font-weight:500}
+.nav-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--gold);color:var(--navy);font-size:0.65rem;font-weight:700;border-radius:20px;padding:0.1rem 0.5rem}
+.sidebar-footer{padding:1rem 1.25rem;border-top:1px solid rgba(255,255,255,0.08)}
+.btn-logout{display:flex;align-items:center;gap:0.65rem;font-family:'DM Sans',sans-serif;font-size:0.82rem;color:rgba(255,255,255,0.45);background:none;border:none;cursor:pointer;padding:0.5rem 0;transition:color 0.2s;width:100%}
+.btn-logout:hover{color:var(--white)}
+.main-area{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+.topbar{background:var(--white);border-bottom:1px solid var(--gray-100);padding:0 2rem;height:60px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:500;color:var(--navy)}
+.topbar-date{font-size:0.82rem;color:var(--gray-500)}
+.content{padding:2rem;flex:1}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem}
+.stat-card{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);padding:1.35rem 1.5rem;box-shadow:var(--shadow);display:flex;align-items:center;gap:1rem}
+.stat-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.stat-val{font-size:1.6rem;font-weight:600;color:var(--navy);line-height:1}
+.stat-label{font-size:0.75rem;color:var(--gray-500);margin-top:3px}
+.stat-trend{font-size:0.72rem;margin-top:4px;color:var(--green)}
+.page{display:none}
+.page.active{display:block}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.section-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:var(--navy)}
+.btn-primary{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:8px;padding:0.5rem 1rem;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:0.4rem}
+.btn-primary:hover{background:var(--blue)}
+.btn-secondary{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;background:var(--white);color:var(--navy);border:1.5px solid var(--gray-300);border-radius:8px;padding:0.45rem 0.9rem;cursor:pointer;transition:all 0.2s}
+.btn-secondary:hover{border-color:var(--navy)}
+.btn-edit{font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;background:var(--sky);color:var(--blue);border:none;border-radius:7px;padding:0.38rem 0.8rem;cursor:pointer;transition:all 0.2s}
+.btn-edit:hover{background:var(--blue);color:var(--white)}
+.btn-danger{font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;background:var(--red-bg);color:var(--red);border:none;border-radius:7px;padding:0.38rem 0.8rem;cursor:pointer;transition:all 0.2s}
+.btn-danger:hover{background:var(--red);color:var(--white)}
+.table-wrap{background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+.table-toolbar{display:flex;align-items:center;gap:0.75rem;padding:1rem 1.25rem;border-bottom:1px solid var(--gray-100)}
+.search-input{font-family:'DM Sans',sans-serif;font-size:0.85rem;border:1.5px solid var(--gray-300);border-radius:8px;padding:0.45rem 0.9rem;outline:none;transition:border-color 0.2s;width:220px}
+.search-input:focus{border-color:var(--blue)}
+.filter-select{font-family:'DM Sans',sans-serif;font-size:0.82rem;border:1.5px solid var(--gray-300);border-radius:8px;padding:0.43rem 0.7rem;outline:none;background:var(--white);cursor:pointer}
+table{width:100%;border-collapse:collapse}
+thead{background:var(--gray-50)}
+th{font-size:0.72rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--gray-500);padding:0.85rem 1.25rem;text-align:left;border-bottom:1px solid var(--gray-100)}
+td{font-size:0.85rem;color:var(--gray-700);padding:0.9rem 1.25rem;border-bottom:1px solid var(--gray-100);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gray-50)}
+.td-title{font-weight:500;color:var(--navy)}
+.tour-thumb{width:44px;height:44px;border-radius:7px;object-fit:cover;margin-right:0.75rem;vertical-align:middle}
+.td-actions{display:flex;align-items:center;gap:0.5rem}
+.td-msg{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:0.8rem;color:var(--gray-500)}
+.badge{display:inline-flex;align-items:center;font-size:0.72rem;font-weight:600;border-radius:20px;padding:0.22rem 0.65rem}
+.badge-hot{background:#fff0eb;color:#c04a00}
+.badge-cat{background:var(--green-bg);color:var(--green)}
+.badge-requested{background:var(--sky);color:var(--blue)}
+.badge-progress{background:var(--orange-bg);color:var(--orange)}
+.badge-completed{background:var(--green-bg);color:var(--green)}
+.badge-admin{background:var(--purple-bg);color:var(--purple)}
+.badge-user{background:var(--gray-100);color:var(--gray-700)}
+.badge-superadmin{background:#fff9e6;color:#8a6200}
+.status-select{font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:500;border-radius:7px;padding:0.3rem 0.6rem;border:1.5px solid var(--gray-300);outline:none;cursor:pointer;background:var(--white)}
+.status-select:focus{border-color:var(--blue)}
+.quick-actions{display:flex;flex-direction:column;gap:0.75rem}
+.qa-btn{display:flex;align-items:center;gap:0.75rem;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;padding:0.9rem 1.1rem;border-radius:10px;border:none;color:var(--white);cursor:pointer;transition:all 0.2s}
+.qa-btn:hover{opacity:0.9;transform:translateY(-1px)}
+.qa-btn.navy{background:var(--navy)}
+.qa-btn.blue{background:var(--blue)}
+.qa-btn.purple{background:var(--purple)}
+.system-status{background:var(--white);border:1px solid var(--gray-100);border-radius:10px;padding:1.1rem;box-shadow:var(--shadow)}
+.ss-title{font-size:0.78rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:0.75rem}
+.ss-row{display:flex;justify-content:space-between;font-size:0.82rem;padding:0.25rem 0}
+.ss-online{color:var(--green);font-weight:500}
+.overlay{position:fixed;inset:0;background:rgba(10,35,66,0.5);backdrop-filter:blur(4px);z-index:800;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.overlay.open{opacity:1;pointer-events:all}
+.modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(0.97);z-index:900;background:var(--white);border-radius:16px;width:min(600px,95vw);max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 24px 80px rgba(10,35,66,0.2)}
+.modal.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.modal-header{padding:1.5rem 1.75rem;border-bottom:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:500;color:var(--navy)}
+.modal-close{width:32px;height:32px;background:var(--gray-100);border:none;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;color:var(--navy);flex-shrink:0}
+.modal-close:hover{background:var(--gray-300)}
+.modal-body{padding:1.75rem}
+.modal-footer{padding:1.25rem 1.75rem;border-top:1px solid var(--gray-100);display:flex;justify-content:flex-end;gap:0.75rem}
+.mfield{display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem}
+.mfield label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+.mfield input,.mfield textarea,.mfield select{font-family:'DM Sans',sans-serif;font-size:0.88rem;border:1.5px solid var(--gray-300);border-radius:9px;padding:0.65rem 0.9rem;outline:none;transition:border-color 0.2s;width:100%}
+.mfield input:focus,.mfield textarea:focus,.mfield select:focus{border-color:var(--blue)}
+.mfield textarea{resize:vertical;min-height:90px}
+.mform-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.toggle-wrap{display:flex;align-items:center;gap:0.75rem}
+.toggle{width:40px;height:22px;background:var(--gray-300);border-radius:11px;position:relative;cursor:pointer;transition:background 0.2s;border:none;flex-shrink:0}
+.toggle.on{background:var(--green)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:var(--white);border-radius:50%;top:3px;left:3px;transition:left 0.2s;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+.toggle.on::after{left:21px}
+.toggle-label{font-size:0.85rem;color:var(--gray-700)}
+.dash-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:1.5rem}
+.loading-row td{text-align:center;color:var(--gray-500);padding:2rem}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--navy);color:var(--white);padding:0.85rem 1.5rem;border-radius:10px;font-size:0.875rem;z-index:9999;opacity:0;transform:translateY(10px);transition:all 0.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN GATE -->
+<div id="loginGate">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <span>Via Tour — Admin</span>
+    </div>
+    <h2>Admin Panel</h2>
+    <p>Sign in with your administrator credentials</p>
+    <div class="lfield"><label>Email</label><input type="email" id="lgEmail" placeholder="admin@viatour.am" autocomplete="email"></div>
+    <div class="lfield"><label>Password</label><input type="password" id="lgPass" placeholder="Password" autocomplete="current-password"></div>
+    <div class="login-err" id="lgErr">Invalid credentials or insufficient permissions.</div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">Sign In to Admin Panel</button>
+    <a class="back-link" href="index.html">← Back to website</a>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="appShell">
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-logo">
+        <div class="sidebar-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <span>Via Tour</span>
+        <span class="sidebar-role-badge" id="roleBadge">SA</span>
+      </div>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar" id="userAvatar">A</div>
+      <div class="user-info"><p id="userName">Admin</p><span id="userEmailDisplay"></span></div>
+    </div>
+    <div class="sidebar-nav">
+      <div class="nav-section-label">Overview</div>
+      <button class="nav-item active" onclick="showPage('dashboard',this)"><span class="nav-icon">📊</span> Dashboard</button>
+      <div class="nav-section-label">Content</div>
+      <button class="nav-item" onclick="showPage('tours',this)"><span class="nav-icon">✈️</span> Tours</button>
+      <button class="nav-item" onclick="showPage('blog',this)"><span class="nav-icon">📝</span> Blog</button>
+      <div class="nav-section-label">Requests</div>
+      <button class="nav-item" onclick="showPage('submissions',this)"><span class="nav-icon">📬</span> Submissions <span class="nav-badge" id="submBadge">0</span></button>
+      <button class="nav-item" onclick="showPage('bookings',this)"><span class="nav-icon">🗓️</span> Bookings <span class="nav-badge" id="bookingsBadge">0</span></button>
+      <div class="nav-section-label" id="usersMgmtLabel">Management</div>
+      <button class="nav-item" id="usersNavBtn" onclick="showPage('users',this)"><span class="nav-icon">👥</span> Users</button>
+    </div>
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="doLogout()">⬅ Sign Out</button>
+    </div>
+  </div>
+
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-date" id="topbarDate"></div>
+    </div>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="page active" id="page-dashboard">
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-icon" style="background:#e8f4fd">✈️</div><div><div class="stat-val" id="statTours">—</div><div class="stat-label">Total Tours</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#edfaf3">📝</div><div><div class="stat-val" id="statArticles">—</div><div class="stat-label">Blog Articles</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#fff3e0">📬</div><div><div class="stat-val" id="statSubmissions">—</div><div class="stat-label">Submissions</div><div class="stat-trend" id="statPending" style="color:var(--orange)"></div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:#f3effd">🗓️</div><div><div class="stat-val" id="statBookings">—</div><div class="stat-label">Bookings</div></div></div>
+        </div>
+        <div class="dash-grid">
+          <div>
+            <div class="section-header"><span class="section-title">Recent Submissions</span><button class="btn-secondary" onclick="showPage('submissions',document.querySelector('[onclick*=submissions]'))">View all</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Name</th><th>Type</th><th>Status</th><th>Date</th></tr></thead><tbody id="recentSubmTbody"><tr><td colspan="4" class="loading-row" style="text-align:center;color:var(--gray-500);padding:1.5rem">Loading...</td></tr></tbody></table></div>
+          </div>
+          <div>
+            <div class="section-header"><span class="section-title">Quick Actions</span></div>
+            <div class="quick-actions">
+              <button class="qa-btn navy" onclick="openTourModal()">➕ &nbsp;Add New Tour</button>
+              <button class="qa-btn blue" onclick="openBlogModal()">📝 &nbsp;Add New Article</button>
+              <button class="qa-btn purple" onclick="showPage('submissions',document.querySelector('[onclick*=submissions]'))">📬 &nbsp;View Submissions</button>
+              <div class="system-status">
+                <div class="ss-title">System Status</div>
+                <div class="ss-row"><span style="color:var(--gray-700)">Database</span><span class="ss-online" id="dbStatus">● Connecting...</span></div>
+                <div class="ss-row"><span style="color:var(--gray-700)">Website</span><span class="ss-online">● Online</span></div>
+                <div class="ss-row"><span style="color:var(--gray-700)">Auth</span><span class="ss-online">● Online</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TOURS -->
+      <div class="page" id="page-tours">
+        <div class="section-header"><span class="section-title">Manage Tours</span><button class="btn-primary" onclick="openTourModal()">➕ Add Tour</button></div>
+        <div class="table-wrap">
+          <div class="table-toolbar">
+            <input class="search-input" placeholder="Search tours..." oninput="filterTable('toursTable',this.value)">
+            <select class="filter-select" onchange="filterHot(this.value)"><option value="all">All Tours</option><option value="hot">🔥 Hot Offers</option><option value="standard">Standard</option></select>
+          </div>
+          <table id="toursTable"><thead><tr><th>Tour</th><th>Duration</th><th>Price</th><th>Category</th><th>Hot</th><th>Actions</th></tr></thead><tbody id="toursTbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- BLOG -->
+      <div class="page" id="page-blog">
+        <div class="section-header"><span class="section-title">Manage Blog Articles</span><button class="btn-primary" onclick="openBlogModal()">➕ Add Article</button></div>
+        <div class="table-wrap">
+          <div class="table-toolbar"><input class="search-input" placeholder="Search articles..." oninput="filterTable('blogTable',this.value)"></div>
+          <table id="blogTable"><thead><tr><th>Title</th><th>Category</th><th>Read Time</th><th>Published</th><th>Actions</th></tr></thead><tbody id="blogTbody"><tr><td colspan="5" class="loading-row">Loading...</td></tr></tbody></table>
+        </div>
+      </div>
+
+      <!-- SUBMISSIONS -->
+      <div class="page" id="page-submissions">
+        <div class="section-header"><span class="section-title">Contact Submissions</span>
+          <select class="filter-select" onchange="filterSubmissions(this.value)"><option value="all">All Statuses</option><option value="Requested">Requested</option><option value="In Progress">In Progress</option><option value="Completed">Completed</option></select>
+        </div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Type</th><th>Message</th><th>Status</th><th>Date</th></tr></thead><tbody id="submTbody"><tr><td colspan="7" class="loading-row">Loading...</td></tr></tbody></table></div>
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="page" id="page-bookings">
+        <div class="section-header"><span class="section-title">Tour Bookings</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Tour</th><th>Date</th><th>Travelers</th><th>Phone</th><th>Status</th></tr></thead><tbody id="bookingsTbody"><tr><td colspan="6" class="loading-row">Loading...</td></tr></tbody></table></div>
+      </div>
+
+      <!-- USERS -->
+      <div class="page" id="page-users">
+        <div class="section-header"><span class="section-title">User Management</span><button class="btn-primary" onclick="openUserModal()">➕ Add User</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="usersTbody"><tr><td colspan="5" class="loading-row">Loading...</td></tr></tbody></table></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeModal()"></div>
+
+<!-- TOUR MODAL -->
+<div class="modal" id="tourModal">
+  <div class="modal-header"><h3 id="tourModalTitle">Add New Tour</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <div class="mform-row">
+      <div class="mfield"><label>Tour Name</label><input type="text" id="tmName" placeholder="e.g. Classic Italy Tour"></div>
+      <div class="mfield"><label>Category</label><select id="tmCat"><option>Europe</option><option>Asia</option><option>Middle East</option><option>Beach</option><option>Caucasus</option></select></div>
+    </div>
+    <div class="mfield"><label>Brief Description</label><input type="text" id="tmBrief" placeholder="Short summary shown on card"></div>
+    <div class="mfield"><label>Full Description</label><textarea id="tmDesc" placeholder="Full tour details..."></textarea></div>
+    <div class="mform-row">
+      <div class="mfield"><label>Duration</label><input type="text" id="tmDuration" placeholder="e.g. 10 days"></div>
+      <div class="mfield"><label>Price (per person)</label><input type="text" id="tmPrice" placeholder="e.g. $1,299"></div>
+    </div>
+    <div class="mform-row">
+      <div class="mfield"><label>Group Size</label><input type="text" id="tmGroup" placeholder="e.g. Max 12"></div>
+      <div class="mfield"><label>Difficulty</label><select id="tmDiff"><option>Easy</option><option>Moderate</option><option>Challenging</option></select></div>
+    </div>
+    <div class="mfield"><label>Image URL</label><input type="text" id="tmImg" placeholder="https://..."></div>
+    <div class="mfield"><label>Itinerary</label><textarea id="tmItinerary" placeholder="Day 1: Arrival..."></textarea></div>
+    <div class="mfield"><label>What's Included (comma separated)</label><input type="text" id="tmIncludes" placeholder="Return flights, Hotel, Daily breakfast..."></div>
+    <div style="margin-top:0.5rem" class="toggle-wrap">
+      <button class="toggle" id="tmHotToggle" onclick="this.classList.toggle('on')"></button>
+      <span class="toggle-label">Mark as Hot Offer</span>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" id="saveTourBtn" onclick="saveTour()">Save Tour</button></div>
+</div>
+
+<!-- BLOG MODAL -->
+<div class="modal" id="blogModal">
+  <div class="modal-header"><h3 id="blogModalTitle">Add New Article</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <div class="mform-row">
+      <div class="mfield"><label>Article Title</label><input type="text" id="bmTitle" placeholder="e.g. Japan: A Land of Contrasts"></div>
+      <div class="mfield"><label>Category</label><select id="bmCat"><option>Europe</option><option>Asia</option><option>Middle East</option><option>Beach</option><option>Caucasus</option><option>Americas</option></select></div>
+    </div>
+    <div class="mfield"><label>Brief Description</label><input type="text" id="bmBrief" placeholder="Short teaser shown on blog grid"></div>
+    <div class="mfield"><label>Full Article Content</label><textarea id="bmContent" style="min-height:130px" placeholder="Full article text..."></textarea></div>
+    <div class="mform-row">
+      <div class="mfield"><label>Read Time</label><input type="text" id="bmRead" placeholder="e.g. 8 min read"></div>
+      <div class="mfield"><label>Image URL</label><input type="text" id="bmImg" placeholder="https://..."></div>
+    </div>
+    <div class="toggle-wrap" style="margin-top:0.5rem">
+      <button class="toggle" id="bmFeaturedToggle" onclick="this.classList.toggle('on')"></button>
+      <span class="toggle-label">Mark as Featured Article</span>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" id="saveBlogBtn" onclick="saveArticle()">Save Article</button></div>
+</div>
+
+<!-- USER MODAL -->
+<div class="modal" id="userModal">
+  <div class="modal-header"><h3>Add User</h3><button class="modal-close" onclick="closeModal()">✕</button></div>
+  <div class="modal-body">
+    <div class="mform-row">
+      <div class="mfield"><label>Full Name</label><input type="text" id="umName" placeholder="Full name"></div>
+      <div class="mfield"><label>Email</label><input type="email" id="umEmail" placeholder="user@email.com"></div>
+    </div>
+    <div class="mform-row">
+      <div class="mfield"><label>Password</label><input type="password" id="umPass" placeholder="Set password"></div>
+      <div class="mfield"><label>Role</label><select id="umRole"><option value="user">User</option><option value="admin">Admin</option><option value="superadmin">Super Admin</option></select></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn-secondary" onclick="closeModal()">Cancel</button><button class="btn-primary" onclick="saveUser()">Save User</button></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+let currentUser = null;
+let currentProfile = null;
+let editingTourId = null;
+let editingArticleId = null;
+let allSubmissions = [];
+let allBookings = [];
+
+// ── AUTH ──────────────────────────────────────────────────────────
+document.addEventListener('supabase:ready', async () => {
+  // Check if already logged in
+  const { data: { user } } = await window.sb.auth.getUser();
+  if (user) {
+    const { data: profile } = await window.sb.from('profiles').select('*').eq('id', user.id).single();
+    if (profile && ['admin','superadmin'].includes(profile.role)) {
+      currentUser = user; currentProfile = profile;
+      bootAdmin();
+      return;
+    }
+  }
+});
+
+async function doLogin() {
+  const email = document.getElementById('lgEmail').value.trim();
+  const pass  = document.getElementById('lgPass').value;
+  const btn   = document.getElementById('loginBtn');
+  const errEl = document.getElementById('lgErr');
+  if (!email || !pass) return;
+  btn.textContent = 'Signing in...'; btn.disabled = true;
+  errEl.classList.remove('show');
+
+  // Step 1: sign in with Supabase Auth
+  const { data, error } = await window.sb.auth.signInWithPassword({ email, password: pass });
+  if (error) {
+    errEl.textContent = 'Auth error: ' + error.message;
+    errEl.classList.add('show');
+    btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+    return;
+  }
+
+  // Step 2: fetch profile
+  const { data: profile, error: profileError } = await window.sb
+    .from('profiles')
+    .select('*')
+    .eq('id', data.user.id)
+    .maybeSingle();
+
+  if (profileError) {
+    errEl.textContent = 'Profile error: ' + profileError.message;
+    errEl.classList.add('show');
+    await window.sb.auth.signOut();
+    btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+    return;
+  }
+
+  if (!profile || !['admin','superadmin'].includes(profile.role)) {
+    errEl.textContent = 'Access denied. Role: "' + (profile?.role || 'none') + '"';
+    errEl.classList.add('show');
+    await window.sb.auth.signOut();
+    btn.textContent = 'Sign In to Admin Panel'; btn.disabled = false;
+    return;
+  }
+
+  currentUser = data.user;
+  currentProfile = profile;
+  bootAdmin();
+}
+
+async function doLogout() {
+  await window.sb.auth.signOut();
+  window.location.reload();
+}
+
+function bootAdmin() {
+  document.getElementById('loginGate').style.display = 'none';
+  document.getElementById('appShell').classList.add('visible');
+  const name = (currentProfile && currentProfile.full_name) ? currentProfile.full_name : currentUser.email.split('@')[0];
+  const role = (currentProfile && currentProfile.role) ? currentProfile.role : 'admin';
+  document.getElementById('userName').textContent = name;
+  document.getElementById('userEmailDisplay').textContent = currentUser.email;
+  document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+  document.getElementById('roleBadge').textContent = role === 'superadmin' ? 'SA' : 'AD';
+  document.getElementById('topbarDate').textContent = new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  if (currentProfile.role !== 'superadmin') {
+    document.getElementById('usersNavBtn').style.display = 'none';
+    document.getElementById('usersMgmtLabel').style.display = 'none';
+  }
+  loadAll();
+}
+
+document.getElementById('lgPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// ── NAVIGATION ────────────────────────────────────────────────────
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  const titles = { dashboard:'Dashboard', tours:'Manage Tours', blog:'Manage Blog', submissions:'Contact Submissions', bookings:'Tour Bookings', users:'User Management' };
+  document.getElementById('topbarTitle').textContent = titles[name] || name;
+}
+
+// ── LOAD ALL DATA ─────────────────────────────────────────────────
+async function loadAll() {
+  await Promise.all([loadTours(), loadArticles(), loadSubmissions(), loadUsers()]);
+  document.getElementById('dbStatus').textContent = '● Online';
+}
+
+// ── TOURS ─────────────────────────────────────────────────────────
+let allTours = [];
+async function loadTours() {
+  const { data } = await window.sb.from('tours').select('*').order('created_at', { ascending: false });
+  allTours = data || [];
+  renderTours(allTours);
+  document.getElementById('statTours').textContent = allTours.length;
+}
+
+function renderTours(list) {
+  document.getElementById('toursTbody').innerHTML = list.length ? list.map(t => `
+    <tr>
+      <td><img class="tour-thumb" src="${t.image_url || ''}" alt="" onerror="this.style.display='none'">${t.name}</td>
+      <td>${t.duration || '—'}</td><td>${t.price || '—'}</td>
+      <td><span class="badge badge-cat">${t.category || ''}</span></td>
+      <td>${t.is_hot ? '<span class="badge badge-hot">🔥 Hot</span>' : '<span style="color:var(--gray-300)">—</span>'}</td>
+      <td><div class="td-actions"><button class="btn-edit" onclick="editTour('${t.id}')">Edit</button><button class="btn-danger" onclick="deleteTour('${t.id}')">Delete</button></div></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);padding:2rem">No tours yet. Add your first tour!</td></tr>';
+}
+
+function filterHot(val) {
+  if (val === 'all') renderTours(allTours);
+  else if (val === 'hot') renderTours(allTours.filter(t => t.is_hot));
+  else renderTours(allTours.filter(t => !t.is_hot));
+}
+
+function openTourModal(id = null) {
+  editingTourId = id;
+  document.getElementById('tourModalTitle').textContent = id ? 'Edit Tour' : 'Add New Tour';
+  const t = id ? allTours.find(x => x.id === id) : null;
+  document.getElementById('tmName').value      = t?.name || '';
+  document.getElementById('tmCat').value       = t?.category || 'Europe';
+  document.getElementById('tmBrief').value     = t?.brief || '';
+  document.getElementById('tmDesc').value      = t?.description || '';
+  document.getElementById('tmDuration').value  = t?.duration || '';
+  document.getElementById('tmPrice').value     = t?.price || '';
+  document.getElementById('tmGroup').value     = t?.group_size || '';
+  document.getElementById('tmDiff').value      = t?.difficulty || 'Easy';
+  document.getElementById('tmImg').value       = t?.image_url || '';
+  document.getElementById('tmItinerary').value = t?.itinerary || '';
+  document.getElementById('tmIncludes').value  = Array.isArray(t?.includes) ? t.includes.join(', ') : '';
+  document.getElementById('tmHotToggle').classList.toggle('on', !!t?.is_hot);
+  openModal('tourModal');
+}
+
+async function saveTour() {
+  const name = document.getElementById('tmName').value.trim();
+  if (!name) { alert('Tour name is required'); return; }
+  const btn = document.getElementById('saveTourBtn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  const payload = {
+    name, category: document.getElementById('tmCat').value,
+    brief: document.getElementById('tmBrief').value,
+    description: document.getElementById('tmDesc').value,
+    duration: document.getElementById('tmDuration').value,
+    price: document.getElementById('tmPrice').value,
+    group_size: document.getElementById('tmGroup').value,
+    difficulty: document.getElementById('tmDiff').value,
+    image_url: document.getElementById('tmImg').value,
+    itinerary: document.getElementById('tmItinerary').value,
+    includes: document.getElementById('tmIncludes').value.split(',').map(s => s.trim()).filter(Boolean),
+    is_hot: document.getElementById('tmHotToggle').classList.contains('on'),
+    is_active: true,
+  };
+
+  let error;
+  if (editingTourId) {
+    ({ error } = await window.sb.from('tours').update(payload).eq('id', editingTourId));
+  } else {
+    ({ error } = await window.sb.from('tours').insert([payload]));
+  }
+  btn.textContent = 'Save Tour'; btn.disabled = false;
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast(editingTourId ? 'Tour updated!' : 'Tour added!');
+  closeModal(); await loadTours();
+}
+
+function editTour(id) { openTourModal(id); }
+
+async function deleteTour(id) {
+  if (!confirm('Delete this tour? This cannot be undone.')) return;
+  const { error } = await window.sb.from('tours').delete().eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast('Tour deleted');
+  await loadTours();
+}
+
+// ── ARTICLES ──────────────────────────────────────────────────────
+let allArticles = [];
+async function loadArticles() {
+  const { data } = await window.sb.from('articles').select('*').order('created_at', { ascending: false });
+  allArticles = data || [];
+  renderArticles(allArticles);
+  document.getElementById('statArticles').textContent = allArticles.length;
+}
+
+function renderArticles(list) {
+  document.getElementById('blogTbody').innerHTML = list.length ? list.map(a => `
+    <tr>
+      <td class="td-title">${a.title}</td>
+      <td><span class="badge badge-cat">${a.category || ''}</span></td>
+      <td>${a.read_time || '—'}</td>
+      <td style="font-size:0.82rem;color:var(--gray-500)">${new Date(a.created_at).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'})}</td>
+      <td><div class="td-actions"><button class="btn-edit" onclick="editArticle('${a.id}')">Edit</button><button class="btn-danger" onclick="deleteArticle('${a.id}')">Delete</button></div></td>
+    </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">No articles yet.</td></tr>';
+}
+
+function openBlogModal(id = null) {
+  editingArticleId = id;
+  document.getElementById('blogModalTitle').textContent = id ? 'Edit Article' : 'Add New Article';
+  const a = id ? allArticles.find(x => x.id === id) : null;
+  document.getElementById('bmTitle').value   = a?.title || '';
+  document.getElementById('bmCat').value     = a?.category || 'Europe';
+  document.getElementById('bmBrief').value   = a?.brief || '';
+  document.getElementById('bmContent').value = a?.content || '';
+  document.getElementById('bmRead').value    = a?.read_time || '';
+  document.getElementById('bmImg').value     = a?.image_url || '';
+  document.getElementById('bmFeaturedToggle').classList.toggle('on', !!a?.is_featured);
+  openModal('blogModal');
+}
+
+async function saveArticle() {
+  const title = document.getElementById('bmTitle').value.trim();
+  if (!title) { alert('Title is required'); return; }
+  const btn = document.getElementById('saveBlogBtn');
+  btn.textContent = 'Saving...'; btn.disabled = true;
+
+  const payload = {
+    title, category: document.getElementById('bmCat').value,
+    brief: document.getElementById('bmBrief').value,
+    content: document.getElementById('bmContent').value,
+    read_time: document.getElementById('bmRead').value || '5 min read',
+    image_url: document.getElementById('bmImg').value,
+    is_featured: document.getElementById('bmFeaturedToggle').classList.contains('on'),
+    is_published: true,
+    author_id: currentUser?.id,
+  };
+
+  let error;
+  if (editingArticleId) {
+    ({ error } = await window.sb.from('articles').update(payload).eq('id', editingArticleId));
+  } else {
+    ({ error } = await window.sb.from('articles').insert([payload]));
+  }
+  btn.textContent = 'Save Article'; btn.disabled = false;
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast(editingArticleId ? 'Article updated!' : 'Article added!');
+  closeModal(); await loadArticles();
+}
+
+function editArticle(id) { openBlogModal(id); }
+
+async function deleteArticle(id) {
+  if (!confirm('Delete this article?')) return;
+  const { error } = await window.sb.from('articles').delete().eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast('Article deleted');
+  await loadArticles();
+}
+
+// ── SUBMISSIONS ───────────────────────────────────────────────────
+async function loadSubmissions() {
+  const { data } = await window.sb.from('submissions').select('*').order('created_at', { ascending: false });
+  allSubmissions = data || [];
+  renderSubmissions('all');
+  const pending = allSubmissions.filter(s => s.status === 'Requested').length;
+  document.getElementById('statSubmissions').textContent = allSubmissions.length;
+  document.getElementById('statPending').textContent = pending ? `${pending} pending` : '';
+  document.getElementById('submBadge').textContent = pending;
+
+  // Separate bookings from other submissions
+  allBookings = allSubmissions.filter(s => s.type === 'booking');
+  renderBookings();
+  document.getElementById('statBookings').textContent = allBookings.length;
+  document.getElementById('bookingsBadge').textContent = allBookings.filter(b => b.status === 'Requested').length;
+
+  // Recent submissions for dashboard
+  const recent = allSubmissions.slice(0, 4);
+  document.getElementById('recentSubmTbody').innerHTML = recent.map(s => `
+    <tr>
+      <td class="td-title">${s.name}</td>
+      <td>${s.type}</td>
+      <td><span class="badge badge-${s.status === 'Requested' ? 'requested' : s.status === 'In Progress' ? 'progress' : 'completed'}">${s.status}</span></td>
+      <td style="font-size:0.8rem;color:var(--gray-500)">${new Date(s.created_at).toLocaleDateString('en-GB')}</td>
+    </tr>`).join('');
+}
+
+function renderSubmissions(filter) {
+  const list = filter === 'all' ? allSubmissions : allSubmissions.filter(s => s.status === filter);
+  document.getElementById('submTbody').innerHTML = list.length ? list.map(s => `
+    <tr>
+      <td class="td-title">${s.name}</td>
+      <td style="font-size:0.8rem">${s.email || '—'}</td>
+      <td style="font-size:0.8rem">${s.phone || '—'}</td>
+      <td><span class="badge badge-user">${s.type}</span></td>
+      <td class="td-msg" title="${s.message || ''}">${s.message || '—'}</td>
+      <td><select class="status-select" onchange="updateSubmStatus('${s.id}', this.value)">
+        <option ${s.status==='Requested'?'selected':''}>Requested</option>
+        <option ${s.status==='In Progress'?'selected':''}>In Progress</option>
+        <option ${s.status==='Completed'?'selected':''}>Completed</option>
+      </select></td>
+      <td style="font-size:0.8rem;color:var(--gray-500)">${new Date(s.created_at).toLocaleDateString('en-GB')}</td>
+    </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;color:var(--gray-500);padding:2rem">No submissions yet.</td></tr>';
+}
+
+async function updateSubmStatus(id, val) {
+  const { error } = await window.sb.from('submissions').update({ status: val }).eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast('Status updated');
+  await loadSubmissions();
+}
+function filterSubmissions(val) { renderSubmissions(val); }
+
+function renderBookings() {
+  document.getElementById('bookingsTbody').innerHTML = allBookings.length ? allBookings.map(b => `
+    <tr>
+      <td class="td-title">${b.name}</td>
+      <td>${b.tour_name || '—'}</td>
+      <td>${b.travel_date || '—'}</td>
+      <td>${b.num_travelers || '—'}</td>
+      <td style="font-size:0.82rem">${b.phone || '—'}</td>
+      <td><select class="status-select" onchange="updateSubmStatus('${b.id}', this.value)">
+        <option ${b.status==='Requested'?'selected':''}>Requested</option>
+        <option ${b.status==='In Progress'?'selected':''}>In Progress</option>
+        <option ${b.status==='Completed'?'selected':''}>Completed</option>
+      </select></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--gray-500);padding:2rem">No bookings yet.</td></tr>';
+}
+
+// ── USERS ─────────────────────────────────────────────────────────
+let allUsers = [];
+async function loadUsers() {
+  const { data } = await window.sb.from('profiles').select('*').order('created_at', { ascending: false });
+  allUsers = data || [];
+  renderUsers();
+}
+
+function renderUsers() {
+  document.getElementById('usersTbody').innerHTML = allUsers.length ? allUsers.map(u => `
+    <tr>
+      <td class="td-title">${u.full_name || '—'}</td>
+      <td style="font-size:0.82rem">${u.id}</td>
+      <td>${roleBadgeHTML(u.role)}</td>
+      <td style="font-size:0.82rem;color:var(--gray-500)">${new Date(u.created_at).toLocaleDateString('en-GB')}</td>
+      <td><div class="td-actions">
+        ${u.role !== 'superadmin' ? `<button class="btn-edit" onclick="promoteUser('${u.id}','${u.role}')">Promote</button><button class="btn-danger" onclick="demoteUser('${u.id}','${u.role}')">Demote</button>` : '<span style="font-size:0.78rem;color:var(--gray-500)">Protected</span>'}
+      </div></td>
+    </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;color:var(--gray-500);padding:2rem">No users found.</td></tr>';
+}
+
+function roleBadgeHTML(role) {
+  if (role === 'superadmin') return '<span class="badge badge-superadmin">Super Admin</span>';
+  if (role === 'admin') return '<span class="badge badge-admin">Admin</span>';
+  return '<span class="badge badge-user">User</span>';
+}
+
+async function promoteUser(id, currentRole) {
+  const next = currentRole === 'user' ? 'admin' : 'superadmin';
+  if (!confirm(`Promote this user to ${next}?`)) return;
+  const { error } = await window.sb.from('profiles').update({ role: next }).eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast(`User promoted to ${next}`);
+  await loadUsers();
+}
+
+async function demoteUser(id, currentRole) {
+  if (id === currentUser?.id) { alert('You cannot demote yourself.'); return; }
+  const prev = currentRole === 'admin' ? 'user' : 'admin';
+  if (!confirm(`Demote this user to ${prev}?`)) return;
+  const { error } = await window.sb.from('profiles').update({ role: prev }).eq('id', id);
+  if (error) { alert('Error: ' + error.message); return; }
+  showToast(`User demoted to ${prev}`);
+  await loadUsers();
+}
+
+function openUserModal() { openModal('userModal'); }
+
+async function saveUser() {
+  const name  = document.getElementById('umName').value.trim();
+  const email = document.getElementById('umEmail').value.trim();
+  const pass  = document.getElementById('umPass').value;
+  const role  = document.getElementById('umRole').value;
+  if (!name || !email || !pass) { alert('Name, email and password are required'); return; }
+
+  // Create user via Supabase Admin API (requires service key — do this from your backend)
+  // For now we just show a guide
+  alert(`To add a user with role "${role}", ask them to sign up at signin.html first, then update their role in the profiles table:\n\nUPDATE profiles SET role = '${role}' WHERE id = (SELECT id FROM auth.users WHERE email = '${email}');`);
+  closeModal();
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────
+function filterTable(tableId, val) {
+  document.getElementById(tableId).querySelectorAll('tbody tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(val.toLowerCase()) ? '' : 'none';
+  });
+}
+function openModal(id) {
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById(id).classList.add('open');
+}
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
+}
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>

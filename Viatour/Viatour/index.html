@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Via Tour — Travel Agency</title>
+<meta name="description" content="Via Tour — your trusted travel agency based in Yerevan, Armenia.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a2342;--blue:#1a5fa8;--sky:#e8f4fd;--gold:#c9a84c;--white:#ffffff;--gray-50:#f8f9fb;--gray-100:#eef1f6;--gray-300:#c8d0de;--gray-500:#7a8799;--gray-700:#3d4a5c;--radius:12px;--shadow:0 4px 24px rgba(10,35,66,0.10);--shadow-lg:0 8px 40px rgba(10,35,66,0.16)}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--white);overflow-x:hidden}
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-100);height:68px;display:flex;align-items:center}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;width:100%}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:22px;height:22px;fill:var(--gold)}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--navy)}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto}
+nav a{font-size:0.9rem;font-weight:500;color:var(--gray-700);text-decoration:none;padding:0.45rem 0.9rem;border-radius:8px;transition:all 0.2s}
+nav a:hover,nav a.active{background:var(--sky);color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:0.75rem;margin-left:1.5rem;flex-shrink:0}
+.lang-select{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--gray-700);border:1px solid var(--gray-300);background:var(--white);border-radius:8px;padding:0.4rem 0.6rem;cursor:pointer;outline:none}
+.btn-signin{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--blue);border:1.5px solid var(--blue);background:transparent;border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-signin:hover{background:var(--blue);color:var(--white)}
+.btn-signup{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--white);border:none;background:var(--navy);border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.btn-signup:hover{background:var(--blue)}
+.hero{margin-top:68px;background:linear-gradient(135deg,var(--navy) 0%,#1a3f6f 60%,#1a5fa8 100%);padding:5rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=1400&q=80') center/cover no-repeat;opacity:0.18}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1}
+.hero-text h1{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:600;color:var(--white);line-height:1.15;margin-bottom:1.25rem}
+.hero-text h1 span{color:var(--gold)}
+.hero-text p{font-size:1.05rem;color:rgba(255,255,255,0.8);line-height:1.7;margin-bottom:2rem;font-weight:300}
+.hero-label{font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:block}
+.hero-stats{display:flex;gap:2rem;margin-top:2rem}
+.stat-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;color:var(--gold)}
+.stat-label{font-size:0.8rem;color:rgba(255,255,255,0.65);margin-top:2px}
+.hero-image{border-radius:16px;overflow:hidden;box-shadow:var(--shadow-lg);height:360px;position:relative}
+.hero-image img{width:100%;height:100%;object-fit:cover}
+.hero-badge{position:absolute;bottom:1.25rem;left:1.25rem;background:rgba(255,255,255,0.95);border-radius:10px;padding:0.75rem 1rem}
+.hero-badge p{font-size:0.75rem;color:var(--gray-500);margin-bottom:2px}
+.hero-badge strong{font-size:0.95rem;color:var(--navy)}
+section{padding:5rem 2rem}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-label{font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.75rem}
+.section-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:600;color:var(--navy);line-height:1.2;margin-bottom:1rem}
+.section-subtitle{font-size:1rem;color:var(--gray-500);line-height:1.7;max-width:560px}
+.about{background:var(--gray-50)}
+.about-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-text p{font-size:1rem;color:var(--gray-700);line-height:1.8;margin-top:1rem}
+.about-features{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+.feature-item{display:flex;align-items:flex-start;gap:0.75rem}
+.feature-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;margin-top:6px;flex-shrink:0}
+.feature-item p{font-size:0.9rem;color:var(--gray-700);line-height:1.6}
+.about-image{border-radius:16px;overflow:hidden;height:420px;box-shadow:var(--shadow)}
+.about-image img{width:100%;height:100%;object-fit:cover}
+.hot-offers{background:var(--white)}
+.slider-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2rem}
+.hot-badge{display:inline-flex;align-items:center;gap:6px;background:#fff3e0;color:#e65100;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border-radius:20px;padding:0.3rem 0.85rem;margin-bottom:0.75rem}
+.slider-wrapper{position:relative;overflow:hidden}
+.slider-track{display:flex;gap:1.5rem;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+.tour-card{flex:0 0 calc(33.333% - 1rem);background:var(--white);border:1px solid var(--gray-100);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform 0.3s,box-shadow 0.3s;cursor:pointer}
+.tour-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.tour-card-img{height:200px;overflow:hidden;position:relative}
+.tour-card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.tour-card:hover .tour-card-img img{transform:scale(1.05)}
+.hot-tag{position:absolute;top:12px;left:12px;background:#ff6b35;color:white;font-size:0.72rem;font-weight:600;border-radius:20px;padding:0.25rem 0.65rem}
+.tour-card-body{padding:1.25rem}
+.tour-card-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:var(--navy);margin-bottom:0.5rem}
+.tour-card-body p{font-size:0.85rem;color:var(--gray-500);line-height:1.6;margin-bottom:1rem}
+.tour-meta{display:flex;align-items:center;justify-content:space-between}
+.tour-duration{font-size:0.8rem;color:var(--gray-500)}
+.tour-price{font-size:1.1rem;font-weight:600;color:var(--blue)}
+.tour-price span{font-size:0.75rem;font-weight:400;color:var(--gray-500)}
+.slider-controls{display:flex;align-items:center;gap:0.5rem}
+.slider-btn{width:42px;height:42px;border-radius:50%;border:1.5px solid var(--gray-300);background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;font-size:1rem}
+.slider-btn:hover{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.slider-dots{display:flex;gap:6px;justify-content:center;margin-top:1.5rem}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--gray-300);transition:all 0.3s;cursor:pointer}
+.dot.active{background:var(--blue);width:24px;border-radius:4px}
+.loading-msg{text-align:center;padding:3rem;color:var(--gray-500);width:100%}
+.contact-form-section{background:var(--sky)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;max-width:1200px;margin:0 auto}
+.form-visual img{width:100%;border-radius:16px;height:380px;object-fit:cover;box-shadow:var(--shadow);margin-top:1.5rem}
+form{display:flex;flex-direction:column;gap:1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field{display:flex;flex-direction:column;gap:0.4rem}
+label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+input[type="text"],input[type="email"],input[type="tel"],textarea{font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.7rem 1rem;background:var(--white);color:var(--navy);outline:none;transition:border-color 0.2s}
+input:focus,textarea:focus{border-color:var(--blue)}
+textarea{resize:vertical;min-height:100px}
+.btn-submit{font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.85rem 2rem;cursor:pointer;transition:background 0.2s;align-self:flex-start}
+.btn-submit:hover{background:var(--blue)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+footer{background:var(--navy);color:rgba(255,255,255,0.75);padding:3.5rem 2rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 2fr;gap:3rem;margin-bottom:2.5rem}
+.footer-brand p{font-size:0.875rem;line-height:1.7;margin-top:0.75rem;color:rgba(255,255,255,0.55)}
+.footer-social{display:flex;gap:0.75rem;margin-top:1.25rem}
+.social-btn{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;text-decoration:none;color:rgba(255,255,255,0.75);font-size:0.85rem;font-weight:600}
+.social-btn:hover{background:rgba(255,255,255,0.1)}
+.footer-col h4{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.footer-col ul li a{text-decoration:none;color:rgba(255,255,255,0.55);font-size:0.875rem;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-contact p{font-size:0.875rem;line-height:1.8;color:rgba(255,255,255,0.55)}
+.footer-contact strong{color:rgba(255,255,255,0.85)}
+.map-embed{margin-top:1rem;border-radius:10px;overflow:hidden;height:130px}
+.map-embed iframe{width:100%;height:100%;border:none;filter:grayscale(20%)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:0.8rem;color:rgba(255,255,255,0.4)}
+.footer-logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--white)}
+@media(max-width:900px){.hero-inner,.about-inner,.form-grid{grid-template-columns:1fr;gap:2rem}.footer-top{grid-template-columns:1fr 1fr;gap:2rem}.tour-card{flex:0 0 calc(80% - 1rem)}nav{display:none}}
+@media(max-width:600px){.hero-text h1{font-size:2.2rem}.section-title{font-size:1.7rem}.footer-top{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+      <span class="logo-name">Via Tour</span>
+    </a>
+    <nav>
+      <a href="index.html" class="active">Main</a>
+      <a href="tours.html">Tours</a>
+      <a href="blog.html">Blog</a>
+      <a href="contacts.html">Contacts</a>
+    </nav>
+    <div class="header-right">
+      <select class="lang-select" id="langSelect"><option value="en">🌐 EN</option><option value="hy">🌐 HY</option><option value="ru">🌐 RU</option></select>
+      <button class="btn-signin" onclick="window.location.href='signin.html'">Sign in</button>
+      <button class="btn-signup" onclick="window.location.href='signin.html?tab=signup'">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="hero-label">Welcome to Via Tour</span>
+      <h1>Your journey<br>starts <span>here</span></h1>
+      <p>We craft unforgettable travel experiences tailored to your dreams. From hidden gems to iconic destinations — Via Tour takes you there.</p>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Happy Travelers</div></div>
+        <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Destinations</div></div>
+        <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years Experience</div></div>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1682687220923-c58b9a4ab434?w=800&q=80" alt="Travel">
+      <div class="hero-badge"><p>Trusted by travelers since</p><strong>2014 — Yerevan, Armenia</strong></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <p class="section-label">Who we are</p>
+      <h2 class="section-title">A travel agency built on passion & expertise</h2>
+      <p>Via Tour is a premier travel agency based in Yerevan, Armenia. Since 2014, we have been helping travelers discover extraordinary destinations with personalized service and local expertise.</p>
+      <p style="margin-top:1rem">Our team of experienced travel professionals work tirelessly to ensure every trip exceeds expectations — from the first consultation to the final farewell.</p>
+      <div class="about-features">
+        <div class="feature-item"><div class="feature-dot"></div><p>Personalized itineraries crafted for every traveler</p></div>
+        <div class="feature-item"><div class="feature-dot"></div><p>Expert local guides across 40+ destinations worldwide</p></div>
+        <div class="feature-item"><div class="feature-dot"></div><p>24/7 support throughout your entire journey</p></div>
+        <div class="feature-item"><div class="feature-dot"></div><p>Best price guarantee with no hidden fees</p></div>
+      </div>
+    </div>
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=800&q=80" alt="Via Tour Office">
+    </div>
+  </div>
+</section>
+
+<section class="hot-offers" id="tours">
+  <div class="section-inner">
+    <div class="slider-header">
+      <div>
+        <div class="hot-badge">🔥 Hot Offers</div>
+        <h2 class="section-title">Deals you can't miss</h2>
+        <p class="section-subtitle">Handpicked tours at exceptional value — for a limited time only.</p>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn" id="prevBtn">&#8592;</button>
+        <button class="slider-btn" id="nextBtn">&#8594;</button>
+      </div>
+    </div>
+    <div class="slider-wrapper">
+      <div class="slider-track" id="sliderTrack">
+        <div class="loading-msg">Loading hot offers...</div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</section>
+
+<section class="contact-form-section" id="callback">
+  <div class="form-grid">
+    <div class="form-visual">
+      <p class="section-label">Need assistance?</p>
+      <h2 class="section-title">Let our experts plan your dream trip</h2>
+      <p class="section-subtitle">Fill in the form and one of our travel managers will reach out to you shortly.</p>
+      <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80" alt="Travel Manager">
+    </div>
+    <div>
+      <form id="callbackForm">
+        <div class="form-row">
+          <div class="field"><label>Full Name</label><input type="text" id="cb-name" placeholder="Your name" required></div>
+          <div class="field"><label>Email Address</label><input type="email" id="cb-email" placeholder="you@email.com" required></div>
+        </div>
+        <div class="field"><label>Phone Number</label><input type="tel" id="cb-phone" placeholder="+374 xx xxx xxx"></div>
+        <div class="field"><label>How can we help you?</label><textarea id="cb-msg" placeholder="Tell us about your dream destination, dates, group size..."></textarea></div>
+        <button type="submit" class="btn-submit" id="cbBtn">Request a Callback</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="index.html">
+          <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+          <span class="footer-logo-name">Via Tour</span>
+        </a>
+        <p>Your trusted travel partner since 2014. Creating extraordinary journeys across the world from Yerevan, Armenia.</p>
+        <div class="footer-social">
+          <a class="social-btn" href="#" title="Instagram" target="_blank">in</a>
+          <a class="social-btn" href="#" title="Facebook" target="_blank">fb</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Main</a></li><li><a href="tours.html">Tours</a></li><li><a href="blog.html">Blog</a></li><li><a href="contacts.html">Contacts</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="tours.html">Group Tours</a></li><li><a href="tours.html">Private Tours</a></li><li><a href="tours.html">Honeymoon</a></li><li><a href="tours.html">Business Travel</a></li></ul></div>
+      <div class="footer-contact">
+        <h4>Contact Us</h4>
+        <p><strong>Address:</strong> Yerevan, Armenia<br><strong>Email:</strong> info@viatour.am<br><strong>Phone:</strong> +374 10 000 000</p>
+        <div class="map-embed"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.8!2d44.5152!3d40.1872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd0f16e7a4c1%3A0x8b36cd1ba7f8f66e!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Via Tour. All rights reserved.</p><p>Made with ♥ in Yerevan</p></div>
+  </div>
+</footer>
+
+<script src="supabase.js"></script>
+<script>
+let current = 0;
+let hotTours = [];
+
+document.addEventListener('supabase:ready', async () => {
+  const { data, error } = await window.sb
+    .from('tours')
+    .select('*')
+    .eq('is_hot', true)
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+
+  const track = document.getElementById('sliderTrack');
+  if (error || !data || data.length === 0) {
+    track.innerHTML = '<div class="loading-msg">No hot offers right now — check back soon!</div>';
+    return;
+  }
+  hotTours = data;
+  renderSlider();
+});
+
+function renderSlider() {
+  const track = document.getElementById('sliderTrack');
+  const dots  = document.getElementById('sliderDots');
+  const visible = 3;
+  const totalSlides = Math.max(1, hotTours.length - visible + 1);
+
+  track.innerHTML = hotTours.map(t => `
+    <div class="tour-card" onclick="window.location.href='tours.html'">
+      <div class="tour-card-img">
+        <img src="${t.image_url || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80'}" alt="${t.name}" loading="lazy">
+        <span class="hot-tag">HOT</span>
+      </div>
+      <div class="tour-card-body">
+        <h3>${t.name}</h3>
+        <p>${t.brief || ''}</p>
+        <div class="tour-meta">
+          <span class="tour-duration">⏱ ${t.duration || ''}</span>
+          <span class="tour-price">${t.price || ''} <span>/ person</span></span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  dots.innerHTML = '';
+  for (let i = 0; i < totalSlides; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dots.appendChild(d);
+  }
+  goTo(0);
+
+  let auto = setInterval(() => goTo(current + 1 < totalSlides ? current + 1 : 0), 4000);
+  track.addEventListener('mouseenter', () => clearInterval(auto));
+  track.addEventListener('mouseleave', () => { auto = setInterval(() => goTo(current + 1 < totalSlides ? current + 1 : 0), 4000); });
+}
+
+function goTo(idx) {
+  const track = document.getElementById('sliderTrack');
+  const card  = track.querySelector('.tour-card');
+  if (!card) return;
+  const visible = 3;
+  const totalSlides = Math.max(1, hotTours.length - visible + 1);
+  current = Math.max(0, Math.min(idx, totalSlides - 1));
+  track.style.transform = `translateX(-${current * (card.offsetWidth + 24)}px)`;
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+}
+
+document.getElementById('prevBtn').onclick = () => goTo(current - 1);
+document.getElementById('nextBtn').onclick = () => {
+  const t = Math.max(1, hotTours.length - 2);
+  goTo(current + 1 < t ? current + 1 : 0);
+};
+
+document.getElementById('callbackForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('cbBtn');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  const { error } = await window.sb.from('submissions').insert([{
+    name: document.getElementById('cb-name').value,
+    email: document.getElementById('cb-email').value,
+    phone: document.getElementById('cb-phone').value,
+    message: document.getElementById('cb-msg').value,
+    type: 'callback', status: 'Requested'
+  }]);
+  if (error) { btn.textContent = 'Try again'; btn.disabled = false; alert('Error: ' + error.message); return; }
+  this.innerHTML = `<div style="text-align:center;padding:2rem 0"><div style="font-size:2.5rem;margin-bottom:1rem">✓</div><h3 style="font-family:'Playfair Display',serif;color:var(--navy);margin-bottom:0.5rem">Thank you!</h3><p style="color:var(--gray-500)">Our travel manager will contact you shortly.</p></div>`;
+};
+
+const translations = {
+  en:{main:'Main',tours:'Tours',blog:'Blog',contacts:'Contacts',signin:'Sign in',signup:'Sign up'},
+  hy:{main:'Գլխ',tours:'Տուրեր',blog:'Բլոգ',contacts:'Կոնտակտ',signin:'Մուտք',signup:'Գրանցում'},
+  ru:{main:'Главная',tours:'Туры',blog:'Блог',contacts:'Контакты',signin:'Войти',signup:'Регистрация'}
+};
+document.getElementById('langSelect').addEventListener('change', function() {
+  const t = translations[this.value];
+  const links = document.querySelectorAll('nav a');
+  links[0].textContent=t.main; links[1].textContent=t.tours; links[2].textContent=t.blog; links[3].textContent=t.contacts;
+  document.querySelector('.btn-signin').textContent=t.signin;
+  document.querySelector('.btn-signup').textContent=t.signup;
+});
+</script>
+</body>
+</html>

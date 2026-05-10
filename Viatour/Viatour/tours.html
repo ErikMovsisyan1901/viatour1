@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Via Tour — Tours</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0a2342;--blue:#1a5fa8;--sky:#e8f4fd;--gold:#c9a84c;--white:#ffffff;--gray-50:#f8f9fb;--gray-100:#eef1f6;--gray-300:#c8d0de;--gray-500:#7a8799;--gray-700:#3d4a5c;--radius:12px;--shadow:0 4px 24px rgba(10,35,66,0.10);--shadow-lg:0 8px 40px rgba(10,35,66,0.16)}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--navy);background:var(--gray-50);overflow-x:hidden}
+header{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--gray-100);height:68px;display:flex;align-items:center}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;width:100%}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0}
+.logo-icon{width:40px;height:40px;background:var(--navy);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:22px;height:22px;fill:var(--gold)}
+.logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--navy)}
+nav{display:flex;align-items:center;gap:0.25rem;margin-left:auto}
+nav a{font-size:0.9rem;font-weight:500;color:var(--gray-700);text-decoration:none;padding:0.45rem 0.9rem;border-radius:8px;transition:all 0.2s}
+nav a:hover,nav a.active{background:var(--sky);color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:0.75rem;margin-left:1.5rem;flex-shrink:0}
+.lang-select{font-family:'DM Sans',sans-serif;font-size:0.85rem;color:var(--gray-700);border:1px solid var(--gray-300);background:var(--white);border-radius:8px;padding:0.4rem 0.6rem;cursor:pointer;outline:none}
+.btn-signin{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--blue);border:1.5px solid var(--blue);background:transparent;border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s}
+.btn-signin:hover{background:var(--blue);color:var(--white)}
+.btn-signup{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;color:var(--white);border:none;background:var(--navy);border-radius:8px;padding:0.4rem 1rem;cursor:pointer;transition:all 0.2s}
+.btn-signup:hover{background:var(--blue)}
+.page-hero{margin-top:68px;background:linear-gradient(135deg,var(--navy) 0%,#1a3f6f 60%,#1a5fa8 100%);padding:3.5rem 2rem;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1400&q=80') center/cover no-repeat;opacity:0.15}
+.page-hero-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1}
+.page-hero-label{font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem;display:block}
+.page-hero h1{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:600;color:var(--white);margin-bottom:0.75rem}
+.page-hero p{font-size:1rem;color:rgba(255,255,255,0.75);font-weight:300}
+.filter-bar{background:var(--white);border-bottom:1px solid var(--gray-100);padding:1rem 2rem;position:sticky;top:68px;z-index:100}
+.filter-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap}
+.filter-label{font-size:0.82rem;font-weight:500;color:var(--gray-500)}
+.filter-btn{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;padding:0.4rem 1rem;border-radius:20px;border:1.5px solid var(--gray-300);background:transparent;color:var(--gray-700);cursor:pointer;transition:all 0.2s}
+.filter-btn:hover,.filter-btn.active{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.filter-search{margin-left:auto}
+.filter-search input{font-family:'DM Sans',sans-serif;font-size:0.85rem;border:1.5px solid var(--gray-300);border-radius:8px;padding:0.4rem 0.9rem;outline:none;transition:border-color 0.2s;width:220px}
+.filter-search input:focus{border-color:var(--blue)}
+.tours-section{padding:3rem 2rem}
+.tours-inner{max-width:1200px;margin:0 auto}
+.tours-count{font-size:0.85rem;color:var(--gray-500);margin-bottom:1.5rem}
+.tours-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.75rem}
+.tour-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--gray-100);overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.3s,box-shadow 0.3s;animation:fadeUp 0.4s ease both}
+.tour-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.tour-img{height:210px;overflow:hidden;position:relative}
+.tour-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.tour-card:hover .tour-img img{transform:scale(1.06)}
+.tour-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px}
+.badge{font-size:0.7rem;font-weight:600;letter-spacing:0.05em;border-radius:20px;padding:0.22rem 0.6rem}
+.badge-hot{background:#ff6b35;color:white}
+.badge-cat{background:rgba(10,35,66,0.75);color:white;backdrop-filter:blur(4px)}
+.tour-body{padding:1.25rem}
+.tour-body h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500;color:var(--navy);margin-bottom:0.5rem;line-height:1.35}
+.tour-body p{font-size:0.84rem;color:var(--gray-500);line-height:1.65;margin-bottom:1rem}
+.tour-footer{display:flex;align-items:center;justify-content:space-between;padding-top:0.85rem;border-top:1px solid var(--gray-100)}
+.tour-meta-info{display:flex;flex-direction:column;gap:3px}
+.tour-duration{font-size:0.78rem;color:var(--gray-500)}
+.tour-price-big{font-size:1.15rem;font-weight:600;color:var(--blue)}
+.tour-price-big span{font-size:0.72rem;font-weight:400;color:var(--gray-500)}
+.btn-view{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:500;background:var(--sky);color:var(--blue);border:none;border-radius:8px;padding:0.5rem 1rem;cursor:pointer;transition:all 0.2s}
+.btn-view:hover{background:var(--blue);color:var(--white)}
+.loading-grid{text-align:center;padding:4rem;color:var(--gray-500);grid-column:1/-1}
+.no-results{text-align:center;padding:4rem;color:var(--gray-500);grid-column:1/-1}
+.no-results h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);margin-bottom:0.5rem}
+.overlay{position:fixed;inset:0;background:rgba(10,35,66,0.55);backdrop-filter:blur(4px);z-index:500;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.overlay.open{opacity:1;pointer-events:all}
+.tour-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(0.97);z-index:600;background:var(--white);border-radius:20px;width:min(780px,95vw);max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity 0.35s,transform 0.35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 24px 80px rgba(10,35,66,0.22)}
+.tour-popup.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.popup-img{height:300px;overflow:hidden;border-radius:20px 20px 0 0;position:relative}
+.popup-img img{width:100%;height:100%;object-fit:cover}
+.popup-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,35,66,0.5) 0%,transparent 50%)}
+.popup-img-title{position:absolute;bottom:1.5rem;left:2rem;right:2rem}
+.popup-img-title h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;color:var(--white);line-height:1.2}
+.popup-badges{display:flex;gap:8px;margin-bottom:0.5rem}
+.popup-close{position:absolute;top:1rem;right:1rem;width:36px;height:36px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;color:var(--navy);z-index:10}
+.popup-close:hover{background:var(--white);transform:scale(1.08)}
+.popup-body{padding:2rem}
+.popup-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.popup-stat{background:var(--gray-50);border-radius:10px;padding:0.85rem 1rem;text-align:center}
+.popup-stat-label{font-size:0.72rem;color:var(--gray-500);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.06em}
+.popup-stat-value{font-size:1rem;font-weight:600;color:var(--navy)}
+.popup-section-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:var(--navy);margin-bottom:0.75rem;margin-top:1.5rem}
+.popup-body p{font-size:0.9rem;color:var(--gray-700);line-height:1.8}
+.popup-includes{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin-top:0.5rem}
+.include-item{display:flex;align-items:center;gap:0.5rem;font-size:0.85rem;color:var(--gray-700)}
+.include-dot{width:7px;height:7px;background:var(--gold);border-radius:50%;flex-shrink:0}
+.popup-footer{padding:1.5rem 2rem;border-top:1px solid var(--gray-100);display:flex;align-items:center;justify-content:space-between;background:var(--gray-50);border-radius:0 0 20px 20px}
+.price-from{font-size:0.78rem;color:var(--gray-500)}
+.price-amount{font-size:1.6rem;font-weight:600;color:var(--blue)}
+.price-amount span{font-size:0.8rem;font-weight:400;color:var(--gray-500)}
+.btn-book{font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.85rem 2rem;cursor:pointer;transition:all 0.2s}
+.btn-book:hover{background:var(--blue);transform:translateY(-1px)}
+.booking-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-48%) scale(0.97);z-index:700;background:var(--white);border-radius:20px;width:min(540px,95vw);max-height:88vh;overflow-y:auto;opacity:0;pointer-events:none;transition:opacity 0.3s,transform 0.3s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 24px 80px rgba(10,35,66,0.22)}
+.booking-popup.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1)}
+.booking-header{background:var(--navy);padding:2rem;border-radius:20px 20px 0 0;position:relative}
+.booking-header h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:600;color:var(--white);margin-bottom:0.35rem}
+.booking-header p{font-size:0.875rem;color:rgba(255,255,255,0.65)}
+.booking-close{position:absolute;top:1rem;right:1rem;width:34px;height:34px;background:rgba(255,255,255,0.15);border:none;border-radius:50%;font-size:1rem;cursor:pointer;color:var(--white);display:flex;align-items:center;justify-content:center}
+.booking-close:hover{background:rgba(255,255,255,0.25)}
+.booking-body{padding:2rem}
+.phone-box{background:var(--sky);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.phone-icon{width:44px;height:44px;background:var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.phone-info p{font-size:0.78rem;color:var(--gray-500);margin-bottom:2px}
+.phone-info strong{font-size:1.05rem;color:var(--navy)}
+.divider{display:flex;align-items:center;gap:1rem;margin:1.25rem 0}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--gray-100)}
+.divider span{font-size:0.78rem;color:var(--gray-500);white-space:nowrap}
+.booking-form{display:flex;flex-direction:column;gap:1rem}
+.field{display:flex;flex-direction:column;gap:0.4rem}
+label{font-size:0.82rem;font-weight:500;color:var(--navy)}
+input[type="text"],input[type="email"],input[type="tel"],textarea,select{font-family:'DM Sans',sans-serif;font-size:0.9rem;border:1.5px solid var(--gray-300);border-radius:10px;padding:0.7rem 1rem;background:var(--white);color:var(--navy);outline:none;transition:border-color 0.2s;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--blue)}
+textarea{resize:vertical;min-height:90px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.btn-submit-booking{font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;background:var(--navy);color:var(--white);border:none;border-radius:10px;padding:0.9rem;cursor:pointer;transition:background 0.2s;width:100%;margin-top:0.5rem}
+.btn-submit-booking:hover{background:var(--blue)}
+.btn-submit-booking:disabled{opacity:0.6;cursor:not-allowed}
+.success-state{text-align:center;padding:2rem 0}
+.success-icon{font-size:3rem;margin-bottom:1rem}
+.success-state h3{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--navy);margin-bottom:0.5rem}
+.success-state p{font-size:0.9rem;color:var(--gray-500);line-height:1.7}
+footer{background:var(--navy);color:rgba(255,255,255,0.75);padding:3.5rem 2rem 2rem}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 2fr;gap:3rem;margin-bottom:2.5rem}
+.footer-brand p{font-size:0.875rem;line-height:1.7;margin-top:0.75rem;color:rgba(255,255,255,0.55)}
+.footer-social{display:flex;gap:0.75rem;margin-top:1.25rem}
+.footer-social-btn{width:38px;height:38px;border-radius:8px;border:1px solid rgba(255,255,255,0.2);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;text-decoration:none;color:rgba(255,255,255,0.75);font-size:0.85rem;font-weight:600}
+.footer-social-btn:hover{background:rgba(255,255,255,0.1)}
+.footer-col h4{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:1rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.footer-col ul li a{text-decoration:none;color:rgba(255,255,255,0.55);font-size:0.875rem;transition:color 0.2s}
+.footer-col ul li a:hover{color:var(--white)}
+.footer-contact p{font-size:0.875rem;line-height:1.8;color:rgba(255,255,255,0.55)}
+.footer-contact strong{color:rgba(255,255,255,0.85)}
+.map-embed{margin-top:1rem;border-radius:10px;overflow:hidden;height:130px}
+.map-embed iframe{width:100%;height:100%;border:none;filter:grayscale(20%)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.footer-bottom p{font-size:0.8rem;color:rgba(255,255,255,0.4)}
+.footer-logo-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;color:var(--white)}
+@media(max-width:900px){.tours-grid{grid-template-columns:repeat(2,1fr)}.footer-top{grid-template-columns:1fr 1fr;gap:2rem}nav{display:none}.popup-stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.tours-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr}.popup-includes{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="logo" href="index.html"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="logo-name">Via Tour</span></a>
+    <nav><a href="index.html">Main</a><a href="/tours" class="active">Tours</a><a href="blog.html">Blog</a><a href="contacts.html">Contacts</a></nav>
+    <div class="header-right">
+      <select class="lang-select"><option>🌐 EN</option><option>🌐 HY</option><option>🌐 RU</option></select>
+      <button class="btn-signin" onclick="window.location.href='signin.html'">Sign in</button>
+      <button class="btn-signup" onclick="window.location.href='signin.html?tab=signup'">Sign up</button>
+    </div>
+  </div>
+</header>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-label">Explore the world</span>
+    <h1>Our Tours</h1>
+    <p>Discover handcrafted journeys to the world's most extraordinary destinations</p>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" data-filter="all">All Tours</button>
+    <button class="filter-btn" data-filter="hot">🔥 Hot Offers</button>
+    <button class="filter-btn" data-filter="Europe">Europe</button>
+    <button class="filter-btn" data-filter="Asia">Asia</button>
+    <button class="filter-btn" data-filter="Middle East">Middle East</button>
+    <button class="filter-btn" data-filter="Beach">Beach</button>
+    <div class="filter-search"><input type="text" id="searchInput" placeholder="Search tours..."></div>
+  </div>
+</div>
+
+<section class="tours-section">
+  <div class="tours-inner">
+    <p class="tours-count" id="toursCount"></p>
+    <div class="tours-grid" id="toursGrid"><div class="loading-grid">Loading tours...</div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="logo" href="index.html"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div><span class="footer-logo-name">Via Tour</span></a>
+        <p>Your trusted travel partner since 2014.</p>
+        <div class="footer-social"><a class="footer-social-btn" href="#" target="_blank">in</a><a class="footer-social-btn" href="#" target="_blank">fb</a></div>
+      </div>
+      <div class="footer-col"><h4>Navigation</h4><ul><li><a href="index.html">Main</a></li><li><a href="tours.html">Tours</a></li><li><a href="blog.html">Blog</a></li><li><a href="contacts.html">Contacts</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="#">Group Tours</a></li><li><a href="#">Private Tours</a></li><li><a href="#">Honeymoon</a></li><li><a href="#">Business Travel</a></li></ul></div>
+      <div class="footer-contact"><h4>Contact Us</h4><p><strong>Address:</strong> Yerevan, Armenia<br><strong>Email:</strong> info@viatour.am<br><strong>Phone:</strong> +374 10 000 000</p><div class="map-embed"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.8!2d44.5152!3d40.1872!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406abd0f16e7a4c1%3A0x8b36cd1ba7f8f66e!2sYerevan%2C%20Armenia!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s" allowfullscreen loading="lazy"></iframe></div></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Via Tour. All rights reserved.</p><p>Made with ♥ in Yerevan</p></div>
+  </div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="tour-popup" id="tourPopup">
+  <div class="popup-img"><img id="popupImg" src="" alt=""><div class="popup-img-overlay"></div>
+    <div class="popup-img-title"><div class="popup-badges" id="popupBadges"></div><h2 id="popupTitle"></h2></div>
+    <button class="popup-close" id="popupClose">✕</button>
+  </div>
+  <div class="popup-body">
+    <div class="popup-stats" id="popupStats"></div>
+    <h4 class="popup-section-title">About this tour</h4><p id="popupDesc"></p>
+    <h4 class="popup-section-title">What's included</h4><div class="popup-includes" id="popupIncludes"></div>
+    <h4 class="popup-section-title">Itinerary highlights</h4><p id="popupItinerary"></p>
+  </div>
+  <div class="popup-footer">
+    <div><div class="price-from">Starting from</div><div class="price-amount"><span id="popupPrice"></span> <span>/ person</span></div></div>
+    <button class="btn-book" id="btnBook">Book this Tour</button>
+  </div>
+</div>
+
+<div class="booking-popup" id="bookingPopup">
+  <div class="booking-header">
+    <button class="booking-close" id="bookingClose">✕</button>
+    <h3>Book Your Tour</h3>
+    <p id="bookingTourName"></p>
+  </div>
+  <div class="booking-body">
+    <div class="phone-box"><div class="phone-icon">📞</div><div class="phone-info"><p>Call us directly</p><strong>+374 10 000 000</strong></div></div>
+    <div class="divider"><span>or fill in the form below</span></div>
+    <div id="bookingFormWrap"></div>
+  </div>
+</div>
+
+<script src="supabase.js"></script>
+<script>
+let allTours = [];
+let selectedTour = null;
+let activeFilter = 'all';
+let searchVal = '';
+
+document.addEventListener('supabase:ready', async () => {
+  const { data, error } = await window.sb
+    .from('tours')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('toursGrid').innerHTML = '<div class="loading-grid">Error loading tours. Please refresh.</div>';
+    return;
+  }
+  allTours = data || [];
+  renderTours(allTours);
+});
+
+function renderTours(list) {
+  const grid = document.getElementById('toursGrid');
+  document.getElementById('toursCount').textContent = `Showing ${list.length} tour${list.length !== 1 ? 's' : ''}`;
+  if (!list.length) {
+    grid.innerHTML = '<div class="no-results"><h3>No tours found</h3><p>Try a different filter or search term.</p></div>';
+    return;
+  }
+  grid.innerHTML = list.map((t, i) => `
+    <div class="tour-card" style="animation-delay:${i*0.07}s" onclick="openTourPopup('${t.id}')">
+      <div class="tour-img">
+        <img src="${t.image_url || 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&q=80'}" alt="${t.name}" loading="lazy">
+        <div class="tour-badges">
+          ${t.is_hot ? '<span class="badge badge-hot">HOT</span>' : ''}
+          <span class="badge badge-cat">${t.category || ''}</span>
+        </div>
+      </div>
+      <div class="tour-body">
+        <h3>${t.name}</h3>
+        <p>${t.brief || ''}</p>
+        <div class="tour-footer">
+          <div class="tour-meta-info">
+            <span class="tour-duration">⏱ ${t.duration || ''} &nbsp;·&nbsp; 👥 ${t.group_size || ''}</span>
+            <span class="tour-price-big">${t.price || ''} <span>/ person</span></span>
+          </div>
+          <button class="btn-view">View Tour</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function applyFilters() {
+  let list = allTours;
+  if (activeFilter === 'hot') list = list.filter(t => t.is_hot);
+  else if (activeFilter !== 'all') list = list.filter(t => t.category === activeFilter);
+  if (searchVal) list = list.filter(t =>
+    t.name.toLowerCase().includes(searchVal) || (t.brief || '').toLowerCase().includes(searchVal)
+  );
+  renderTours(list);
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.onclick = function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    applyFilters();
+  };
+});
+document.getElementById('searchInput').oninput = function() {
+  searchVal = this.value.toLowerCase();
+  applyFilters();
+};
+
+function openTourPopup(id) {
+  const t = allTours.find(x => x.id === id);
+  if (!t) return;
+  selectedTour = t;
+  document.getElementById('popupImg').src = t.image_url || '';
+  document.getElementById('popupTitle').textContent = t.name;
+  document.getElementById('popupDesc').textContent = t.description || '';
+  document.getElementById('popupItinerary').textContent = t.itinerary || '';
+  document.getElementById('popupPrice').textContent = t.price || '';
+  document.getElementById('popupBadges').innerHTML = `${t.is_hot ? '<span class="badge badge-hot">HOT</span>' : ''}<span class="badge badge-cat">${t.category || ''}</span>`;
+  document.getElementById('popupStats').innerHTML = `
+    <div class="popup-stat"><div class="popup-stat-label">Duration</div><div class="popup-stat-value">${t.duration || '—'}</div></div>
+    <div class="popup-stat"><div class="popup-stat-label">Group Size</div><div class="popup-stat-value">${t.group_size || '—'}</div></div>
+    <div class="popup-stat"><div class="popup-stat-label">Difficulty</div><div class="popup-stat-value">${t.difficulty || '—'}</div></div>
+    <div class="popup-stat"><div class="popup-stat-label">Price</div><div class="popup-stat-value">${t.price || '—'}</div></div>`;
+  const includes = Array.isArray(t.includes) ? t.includes : [];
+  document.getElementById('popupIncludes').innerHTML = includes.map(i => `<div class="include-item"><div class="include-dot"></div><span>${i}</span></div>`).join('');
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('tourPopup').classList.add('open');
+  document.getElementById('tourPopup').scrollTop = 0;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTourPopup() {
+  document.getElementById('tourPopup').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function openBookingPopup() {
+  document.getElementById('bookingTourName').textContent = selectedTour?.name || '';
+  document.getElementById('bookingFormWrap').innerHTML = `
+    <form class="booking-form" id="bookingForm">
+      <div class="form-row">
+        <div class="field"><label>Full Name</label><input type="text" id="bk-name" placeholder="Your name" required></div>
+        <div class="field"><label>Phone Number</label><input type="tel" id="bk-phone" placeholder="+374 xx xxx xxx" required></div>
+      </div>
+      <div class="field"><label>Email Address</label><input type="email" id="bk-email" placeholder="you@email.com"></div>
+      <div class="form-row">
+        <div class="field"><label>Travel Date</label><input type="text" id="bk-date" placeholder="e.g. June 2025"></div>
+        <div class="field"><label>Travelers</label><select id="bk-travelers"><option>1 person</option><option>2 people</option><option>3 people</option><option>4+ people</option></select></div>
+      </div>
+      <div class="field"><label>Additional Notes</label><textarea id="bk-notes" placeholder="Any special requests?"></textarea></div>
+      <button type="submit" class="btn-submit-booking" id="bkBtn">Send Booking Request</button>
+    </form>`;
+
+  document.getElementById('bookingForm').onsubmit = async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('bkBtn');
+    btn.textContent = 'Sending...'; btn.disabled = true;
+    const { error } = await window.sb.from('submissions').insert([{
+      name:         document.getElementById('bk-name').value,
+      phone:        document.getElementById('bk-phone').value,
+      email:        document.getElementById('bk-email').value,
+      type:         'booking',
+      tour_id:      selectedTour?.id,
+      tour_name:    selectedTour?.name,
+      travel_date:  document.getElementById('bk-date').value,
+      num_travelers:document.getElementById('bk-travelers').value,
+      message:      document.getElementById('bk-notes').value,
+      status:       'Requested'
+    }]);
+    if (error) { btn.textContent = 'Try again'; btn.disabled = false; alert('Error: ' + error.message); return; }
+    document.getElementById('bookingFormWrap').innerHTML = `
+      <div class="success-state">
+        <div class="success-icon">✓</div>
+        <h3>Request Sent!</h3>
+        <p>Our travel manager will contact you within 24 hours to confirm your booking for <strong>${selectedTour?.name}</strong>.</p>
+      </div>`;
+  };
+
+  document.getElementById('tourPopup').classList.remove('open');
+  document.getElementById('bookingPopup').classList.add('open');
+}
+
+document.getElementById('popupClose').onclick = closeTourPopup;
+document.getElementById('btnBook').onclick = openBookingPopup;
+document.getElementById('bookingClose').onclick = () => {
+  document.getElementById('bookingPopup').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+};
+document.getElementById('overlay').onclick = () => {
+  document.getElementById('tourPopup').classList.remove('open');
+  document.getElementById('bookingPopup').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow = '';
+};
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeTourPopup();
+    document.getElementById('bookingPopup').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+</script>
+</body>
+</html>
